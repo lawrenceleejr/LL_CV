@@ -264,14 +264,15 @@
 %% which costs the shared left edge on that entry but keeps it inside the text
 %% block.
 
-%% The column is measured, not guessed: at 11pt EB Garamond with oldstyle
-%% figures the widest date in regular use is "2008--2009" at 47.9pt, and 4.5em
-%% is 49.3pt.  Re-measure whenever the text face or the figure style changes --
-%% digit widths differ between both, and a column a shade too narrow silently
-%% sends its widest dates flush right, which tools/check_alignment.py accepts as
-%% legitimate.  Oldstyle figures are the narrower of the two styles here.
+%% The column is measured, not guessed.  Every closed range in the CV is written
+%% YYYY--YY, so at 11pt EB Garamond with oldstyle figures the widest date is
+%% "2007--09" at 37.6pt, and 3.7em is 40.5pt.  Re-measure whenever the text
+%% face, the figure style, or the range convention changes -- digit widths
+%% differ between all three, and a column a shade too narrow silently sends its
+%% widest dates flush right, which tools/check_alignment.py accepts as
+%% legitimate.
 \newlength{\datecolumn}
-\setlength{\datecolumn}{4.5em}
+\setlength{\datecolumn}{3.7em}
 
 %% The glue ahead of a date is \datesep plus infinite stretch.  The stretch is
 %% what pushes the date to the right margin; the fixed \datesep is a floor, so
