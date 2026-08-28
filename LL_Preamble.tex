@@ -20,8 +20,59 @@
 %% hyperref goes last: it patches internals of most other packages.
 
 \usepackage[T1]{fontenc}
-\usepackage{CormorantGaramond}    % body and heading face
+
+%% Type
+%% ---------------------------------------------------------------------------
+%% Two cuts of the same French-Renaissance letterform, each doing one job.
+%%
+%% EB Garamond is the text cut: it carries the ink and the wider fitting a
+%% document reads at 11pt.  Cormorant Garamond is the display cut of the same
+%% design -- finer strokes, higher contrast, drawn for large sizes -- and it
+%% sets the name and the section headings, where those qualities are the point.
+%% (Cormorant alone set the whole CV before, and went thin and grey in the body
+%% text at reading size.)
+%%
+%% ebgaramond-maths puts the math in the same family, so the $\sqrt{s}$ and the
+%% $\tau^+\tau^-$ in the publication titles stop falling back to Computer
+%% Modern, which is a visibly different letterform mid-title.
+
+\usepackage[lining]{ebgaramond}   % text face
+\usepackage{ebgaramond-maths}     % math in the same family
+
+% \displayface -- the Cormorant Garamond cut, for the name and headings.
+% CormorantGaramond-LF is the lining-figure family its package installs; taking
+% it with \usefont keeps Cormorant out of \rmdefault, so it never leaks into
+% body text.
+\newcommand{\displayface}{\usefont{T1}{CormorantGaramond-LF}{m}{n}}
+
 \usepackage{microtype}            % subtler justification, fewer overfull lines
+
+% EB Garamond sets fi/fl as single ligature glyphs, which the PDF carries as one
+% character.  Without a ToUnicode map "configuration" copies out as
+% "con<FB01>guration"; with the stock map it copies as the U+FB01 ligature
+% character, which is correct Unicode but still does not match a search for
+% "configuration" -- and a CV gets read by keyword searches as often as by
+% people.  So map each ligature to the letters it stands for: it renders as a
+% ligature and copies as plain text.
+% EB Garamond's cuts do not agree on what to call these glyphs -- the roman
+% encoding uses f_i, the italic uniFB01 -- so all three spellings are mapped.
+\input{glyphtounicode}
+\pdfgentounicode=1
+\pdfglyphtounicode{ff}      {0066 0066}
+\pdfglyphtounicode{fi}      {0066 0069}
+\pdfglyphtounicode{fl}      {0066 006C}
+\pdfglyphtounicode{ffi}     {0066 0066 0069}
+\pdfglyphtounicode{ffl}     {0066 0066 006C}
+\pdfglyphtounicode{f_f}     {0066 0066}
+\pdfglyphtounicode{f_i}     {0066 0069}
+\pdfglyphtounicode{f_l}     {0066 006C}
+\pdfglyphtounicode{f_f_i}   {0066 0066 0069}
+\pdfglyphtounicode{f_f_l}   {0066 0066 006C}
+\pdfglyphtounicode{uniFB00} {0066 0066}
+\pdfglyphtounicode{uniFB01} {0066 0069}
+\pdfglyphtounicode{uniFB02} {0066 006C}
+\pdfglyphtounicode{uniFB03} {0066 0066 0069}
+\pdfglyphtounicode{uniFB04} {0066 0066 006C}
 \usepackage{wasysym}              % $\RHD$, the "lead role" marker
 \usepackage{graphicx}             % for the (currently disabled) portrait
 
@@ -119,7 +170,7 @@
 \setlength{\parindent}{0em}
 
 \titlespacing{\section}{0pt}{1.2ex plus .4ex minus .2ex}{0.4ex}
-\sectionfont{\rmfamily\mdseries\Large}
+\sectionfont{\displayface\mdseries\Large}
 \subsectionfont{\rmfamily\mdseries\itshape\large}
 
 
@@ -203,8 +254,12 @@
 %% which costs the shared left edge on that entry but keeps it inside the text
 %% block.
 
+%% The column is measured, not guessed: at 11pt EB Garamond the widest date in
+%% regular use is "2022--2025" at 50.0pt, and 4.6em is 50.4pt.  Re-measure this
+%% if the text face ever changes -- digit widths differ between families, and a
+%% column a shade too narrow silently sends its widest dates flush right.
 \newlength{\datecolumn}
-\setlength{\datecolumn}{4.3em}   % holds "2021--2026" in Cormorant Garamond 11pt
+\setlength{\datecolumn}{4.6em}
 
 %% The glue ahead of a date is \datesep plus infinite stretch.  The stretch is
 %% what pushes the date to the right margin; the fixed \datesep is a floor, so
@@ -338,7 +393,7 @@ figures. Run tools/fetch_inspire.py to refresh them.^^J}%
 % \cvheader -- the name, contact details and ORCID that open every document.
 \newcommand{\cvheader}{%
   \begin{minipage}[t]{0.4\textwidth}
-    {\huge \name}
+    {\huge\displayface \name}
   \end{minipage}%
   \begin{minipage}[t]{0.6\textwidth}
     \begin{flushright}

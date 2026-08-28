@@ -86,6 +86,12 @@ build LL_CV            LL_CV.tex           ''
 build LL_CV_internal   LL_CV.tex           '\def\CVinternal{}'
 build LL_Publications  LL_Publications.tex ''
 
+# Dates are placed by glue, so a stray space token or a date column too narrow
+# for the text face shifts one silently.  Check the built PDFs rather than the
+# source, since that is where the evidence is.
+echo
+python3 tools/check_alignment.py LL_CV.pdf LL_CV_internal.pdf LL_Publications.pdf
+
 [[ $KEEP_AUX -eq 1 ]] || rm -rf "$BUILD_DIR"
 
 echo

@@ -54,8 +54,15 @@ jobs:
           fi
 
       - name: Build both editions
-        # The fetch already happened, so don't repeat it.
+        # The fetch already happened, so don't repeat it.  build.sh runs the
+        # date-alignment check itself; the step below repeats it only so a
+        # failure shows up under its own name in the run.
         run: ./build.sh --no-fetch --keep-aux
+
+      - name: Check the date column
+        run: |
+          python3 tools/check_alignment.py \
+            LL_CV.pdf LL_CV_internal.pdf LL_Publications.pdf
 
       - name: Summarise
         if: always()

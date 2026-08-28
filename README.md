@@ -27,8 +27,32 @@ sudo apt-get install texlive-latex-recommended texlive-latex-extra \
                      texlive-fonts-recommended texlive-fonts-extra
 ```
 
-`texlive-fonts-extra` is the one that is easy to miss — it carries Cormorant
-Garamond, the CV's typeface.
+`texlive-fonts-extra` is the one that is easy to miss — it carries both
+Garamonds. `poppler-utils` supplies `pdftotext`, which the date-column check
+below reads the built PDFs with.
+
+## Type
+
+Two cuts of the same French-Renaissance letterform, each with one job:
+
+| | |
+| --- | --- |
+| **EB Garamond** | body text, and — via `ebgaramond-maths` — the math, so `$\sqrt{s}$` and `$\tau^+\tau^-$` in publication titles are the same letterform as the words around them |
+| **Cormorant Garamond** | the name and the section headings, through `\displayface` |
+
+Cormorant is a *display* cut: fine strokes, high contrast, drawn to be set
+large. It used to set the whole CV and went thin and grey at reading size. It
+now appears only where it is flattering, and `\usefont` keeps it out of
+`\rmdefault` so it cannot leak back into body text.
+
+Changing the text face means re-measuring `\datecolumn` — digit widths differ
+between families, and a column a shade too narrow silently sends its widest
+dates flush right. `tools/check_alignment.py` catches that.
+
+The preamble also maps the f-ligatures back to plain letters in the PDF's
+ToUnicode table. EB Garamond sets `fi`/`fl` as single glyphs, so without that
+map "configuration" copies out of the PDF — and into whatever software reads a
+CV — as `con<FB01>guration`, which no keyword search matches.
 
 ## External and internal editions
 
@@ -91,6 +115,12 @@ run attaches:
 
 - **`cv-external`** — `LL_CV.pdf` and `LL_Publications.pdf`
 - **`latex-logs`** — the `pdflatex` logs, for when a build goes wrong
+
+CI also runs `tools/check_alignment.py`, which reads the built PDFs and fails
+if any date has drifted off the date column. Dates are placed by glue, so the
+ways they go wrong — a stray space token beside an edition block, a `\vspace`
+trapping one in a paragraph tail, a column too narrow for the text face — are
+all invisible in the source and none of them are LaTeX errors.
 
 **The internal PDF is built but deliberately not uploaded.** This repository is
 public, and workflow artifacts on a public repository can be downloaded by
