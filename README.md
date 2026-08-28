@@ -40,14 +40,27 @@ Two cuts of the same French-Renaissance letterform, each with one job:
 | **EB Garamond** | body text, and — via `ebgaramond-maths` — the math, so `$\sqrt{s}$` and `$\tau^+\tau^-$` in publication titles are the same letterform as the words around them |
 | **Cormorant Garamond** | the name and the section headings, through `\displayface` |
 
+Figures are **oldstyle** throughout (`[oldstyle]`, and the `-OsF` family for the
+display cut): they sit at x-height with their own ascenders and descenders, so a
+year reads as a word inside a line of prose rather than as a row of capitals.
+The name is set at 28pt against 11pt body text — its own size, not one of the
+document's steps — and the masthead splits the measure evenly, since the contact
+block's longest line is the email at 106pt and never needed 0.6 of it.
+
+The document is deliberately unornamented: no rules, no colour beyond the muted
+grey of the citation tags. Hierarchy is carried by size, weight, space and small
+caps alone.
+
 Cormorant is a *display* cut: fine strokes, high contrast, drawn to be set
 large. It used to set the whole CV and went thin and grey at reading size. It
 now appears only where it is flattering, and `\usefont` keeps it out of
 `\rmdefault` so it cannot leak back into body text.
 
-Changing the text face means re-measuring `\datecolumn` — digit widths differ
-between families, and a column a shade too narrow silently sends its widest
-dates flush right. `tools/check_alignment.py` catches that.
+Changing the text face **or the figure style** means re-measuring
+`\datecolumn` — digit widths differ between both, and a column a shade too
+narrow silently sends its widest dates flush right, which
+`tools/check_alignment.py` accepts as legitimate. Oldstyle figures are the
+narrower of the two styles here, so the column is 4.5em.
 
 The preamble also maps the f-ligatures back to plain letters in the PDF's
 ToUnicode table. EB Garamond sets `fi`/`fl` as single glyphs, so without that
