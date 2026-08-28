@@ -25,6 +25,8 @@
 \usepackage{wasysym}              % $\RHD$, the "lead role" marker
 \usepackage{graphicx}             % for the (currently disabled) portrait
 
+\usepackage{xcolor}               % the muted grey of the citation tags
+
 \usepackage{geometry}             % page size and margins
 \usepackage{fancyhdr}             % running headers
 \usepackage{lastpage}             % "page n of m"
@@ -33,6 +35,10 @@
 \usepackage{enumitem}             % list configuration
 
 \usepackage[hidelinks]{hyperref}  % clickable links, printed without decoration
+
+% A CV is dense with initials and abbreviations ("L. Lee", "Eur. Phys. J. C"),
+% where TeX's wide inter-sentence space after every period reads as an error.
+\frenchspacing
 
 
 %% ===========================================================================
@@ -105,7 +111,7 @@
 
 \setlength{\parindent}{0em}
 
-\titlespacing{\section}{0pt}{0pt}{0pt}
+\titlespacing{\section}{0pt}{1.2ex plus .4ex minus .2ex}{0.4ex}
 \sectionfont{\rmfamily\mdseries\Large}
 \subsectionfont{\rmfamily\mdseries\itshape\large}
 
@@ -139,11 +145,29 @@
 \renewenvironment{itemize}%
   {\LLlist{1.5em}{0em}{0.25em}{0pt}{0.25em}}{\endlist}
 \newenvironment{itemizetight}%
-  {\LLlist{1.5em}{0em}{0em}{-1pt}{0em}}{\endlist}
+  {\LLlist{1.5em}{0em}{0em}{0pt}{0em}}{\endlist}
 \newenvironment{itemizetighter}%
-  {\LLlist{1.5em}{0em}{0em}{-0.4em}{0em}}{\endlist}
-\newenvironment{itemizetightrightpad}%
-  {\LLlist{1.5em}{3em}{0em}{-1pt}{0em}}{\endlist}
+  {\LLlist{1.5em}{0em}{0em}{0pt}{0em}}{\endlist}
+
+% The commentary hung under a publication entry: inset from the right margin,
+% held close under its entry (small topsep), and adding no extra space of its
+% own after -- the enumerate's itemsep supplies the gap to the next entry.
+\newenvironment{itemizetightrightpad}{%
+  \list{}{%
+    \setlength{\leftmargin}{1.5em}%
+    \setlength{\rightmargin}{3em}%
+    \setlength{\topsep}{0.15em}%
+    \setlength{\partopsep}{0pt}%
+    \setlength{\itemsep}{0.1em}%
+    \setlength{\parskip}{0pt}%
+    \setlength{\parsep}{0em}%
+  }%
+}{\endlist}
+
+% The numbered publication lists: one consistent gap between entries, whether
+% or not an entry carries commentary.  "resume" is accepted on the second list
+% so the numbering continues across the subsection break.
+\setlist[enumerate]{itemsep=0.45em, parsep=0em, topsep=0.4em, partopsep=0pt}
 
 % Hanging indent for a run-on entry: \parshape 2 3.2em \linewidth \listindent
 % \dimexpr\linewidth-\listindent\relax sets the first line full width and
@@ -166,14 +190,14 @@
 %% the same horizontal position.
 %%
 %% A \makebox is only as wide as it is declared, so an over-long date used to
-%% overflow it silently and print out in the right margin -- six of the dates in
-%% this CV ("2021--2026", "2022--23, 24--25", ...) are wider than the column.
-%% \when measures the date first and sets an over-wide one flush right instead,
-%% which costs the shared left edge on those few entries but keeps every date
-%% inside the text block.
+%% overflow it silently and print out in the right margin.  The column is sized
+%% to hold the widest date in regular use, "2021--2026"; \when still measures
+%% each date and sets a wider one ("2022--23, 24--25") flush right instead,
+%% which costs the shared left edge on that entry but keeps it inside the text
+%% block.
 
 \newlength{\datecolumn}
-\setlength{\datecolumn}{3.5em}
+\setlength{\datecolumn}{4.3em}   % holds "2021--2026" in Cormorant Garamond 11pt
 
 %% The glue ahead of a date is \datesep plus infinite stretch.  The stretch is
 %% what pushes the date to the right margin; the fixed \datesep is a floor, so
@@ -184,18 +208,24 @@
 %% gives back the empty right-hand part of the date box, about 1.6em for a
 %% four-digit year.
 \newlength{\datesep}
-\setlength{\datesep}{0.4em}
+\setlength{\datesep}{0.75em}
 
 %% \LLdateglue is the glue that carries the date to the right margin.  It reads
-%% as one \hfill most of the time, but is written out so that an entry too long
-%% to hold its date can break: TeX takes the \penalty50, leaves the text on the
-%% line it filled, and the \hbox{} -- which survives the break where glue would
-%% not -- carries the second \hfill onto the next line, so the date still lands
-%% flush right instead of stranded against the left margin.  \unskip drops the
-%% source space ahead of the date, so the gap is \datesep however the entry was
-%% typed.
+%% as one \hfill most of the time, but is written out so that an entry truly too
+%% long to hold its date can break: TeX takes the \penalty300, leaves the text
+%% on the line it filled, and the \hbox{} -- which survives the break where glue
+%% would not -- carries the second \hfill onto the next line, so the date still
+%% lands flush right instead of stranded against the left margin.  \unskip drops
+%% the source space ahead of the date, so the gap is \datesep however the entry
+%% was typed.
+%%
+%% The penalty must comfortably exceed \finalhyphendemerits (5000 demerits, i.e.
+%% a penalty of ~70): at 50, TeX preferred breaking the date onto its own line
+%% over ending an entry's second-to-last line in a hyphen, and every hyphenated
+%% publication title shed its year.  At 300 (90000 demerits) the break survives
+%% only as the escape hatch it is meant to be.
 \newcommand{\LLdateglue}{%
-  \unskip\nobreak\hspace{\datesep}\hfill\penalty50 \hbox{}\nobreak\hfill
+  \unskip\nobreak\hspace{\datesep}\hfill\penalty300 \hbox{}\nobreak\hfill
 }
 
 \newlength{\LLdatewidth}
@@ -205,9 +235,12 @@
   \ifdim\LLdatewidth>\datecolumn #1\else\makebox[\datecolumn][l]{#1}\fi
 }
 
-% \whenflush{<date>} -- for an entry whose text runs so close to the right
-% margin that the shared left edge of the date column will not fit.  Sets the
-% date flush right, giving up the alignment to keep the gap.
+% \whenflush{<date>} -- the date at its natural width, flush right.  This is
+% the form the publication lists use: their entries are multi-line paragraphs,
+% every date there is a bare year (so flush right aligns into a column anyway),
+% and the empty tail of a \datecolumn box would only push years onto lines of
+% their own.  Also the escape hatch for a single-line entry whose text runs too
+% close to the margin for the full column.
 \newcommand{\whenflush}[1]{\LLdateglue #1}
 
 % \rightnote{<text>} -- a right-aligned italic annotation (an award, a current
@@ -258,10 +291,15 @@
 % The annotation costs about a dozen characters on every entry, which is enough
 % to push an entry that already filled its line onto a second one.  Raising
 % \citesmin, or shortening the label, is the dial if that happens too often.
+%
+% The tag is set small and in a muted grey: it is metadata, and should read a
+% level below the title it annotates.
+\definecolor{LLmuted}{gray}{0.40}
 \newcommand{\citesmin}{1}
 \newcommand{\LLprintcites}[1]{%
   \ifnum#1<\citesmin\relax\else
-    \nobreakspace{\small[#1\nobreakspace\ifnum#1=1\relax citation\else citations\fi]}%
+    \nobreakspace{\small\color{LLmuted}%
+      [#1\nobreakspace\ifnum#1=1\relax citation\else citations\fi]}%
   \fi
 }
 \newcommand{\inspirecites}[1]{%

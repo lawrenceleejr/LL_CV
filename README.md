@@ -115,10 +115,19 @@ build.sh
 A few conventions worth knowing before editing the body:
 
 - `\when{2021--2026}` sets a date in the right-hand date column. Use it for
-  every date rather than a bare `\hfill`, so the column stays aligned; a date
-  too wide for the column falls back to flush right instead of spilling into
-  the margin.
+  every date in the single-line lists rather than a bare `\hfill`, so the
+  column stays aligned; a date too wide for the column falls back to flush
+  right instead of spilling into the margin.
+- `\whenflush{2025}` sets a date flush right at its natural width. It is what
+  the publication lists use: their entries are multi-line paragraphs, every
+  date there is a bare year, and the empty tail of the column box would only
+  push years onto lines of their own.
 - `\rightnote{…}` is the right-aligned italic annotation hung under an entry.
 - `$\RHD$` marks a primary editor, primary analyzer, or intellectual lead role.
+- The two numbered publication lists share one sequence: the second opens with
+  `\begin{enumerate}[resume]`, so the numbering continues across the
+  subsection break without a hand-set counter.
+- The citation tags are set small in a muted grey (`LLmuted`); `\citesmin` in
+  `LL_Preamble.tex` hides counts below a threshold.
 - `itemize`, `itemizetight`, `itemizetighter` and `itemizetightrightpad` are
   the four bullet-free list styles, in decreasing order of leading.
