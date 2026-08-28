@@ -69,10 +69,17 @@
 \ifdefined\CVinternal \CVinternaltrue \else \CVinternalfalse \fi
 
 % \internalonly{<content>} -- included only in the internal edition.
-\newcommand{\internalonly}[1]{\ifCVinternal #1\fi}
-
 % \externalonly{<content>} -- included only in the external edition.
-\newcommand{\externalonly}[1]{\ifCVinternal\else #1\fi}
+%
+% Both end by removing a trailing word space (when there is one to remove).
+% The newlines above and below a block each become a space token, and the
+% newline before its closing brace becomes one more inside it; TeX discards
+% only the final glue of a paragraph, so without the cleanup one survivor was
+% left after the date box and pushed the date a word space left of its column
+% -- so for UT-Battelle above a dropped block in the external edition, and for
+% the last entry inside a kept block in the internal one.
+\newcommand{\internalonly}[1]{\ifCVinternal #1\fi\ifhmode\unskip\fi}
+\newcommand{\externalonly}[1]{\ifCVinternal\else #1\fi\ifhmode\unskip\fi}
 
 % The internal edition says so in its PDF title, so the two files stay
 % distinguishable once they have been detached from their filenames.

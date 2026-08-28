@@ -131,3 +131,6 @@ A few conventions worth knowing before editing the body:
   `LL_Preamble.tex` hides counts below a threshold.
 - `itemize`, `itemizetight`, `itemizetighter` and `itemizetightrightpad` are
   the four bullet-free list styles, in decreasing order of leading.
+- Comment style: `%%` marks the documentation block at the top of a file;
+  everything else — notes, date memos, disabled entries — uses a single `%`
+  with one space on each side of the marker.
