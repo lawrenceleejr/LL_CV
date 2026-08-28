@@ -1,0 +1,185 @@
+
+
+% Jason R. Blevins - Curriculum Vitae
+%
+% Copyright (C) 2004-2013 Jason R. Blevins
+%
+% You may use use this document as a template to create your own CV
+% and you may redistribute the source code freely.  No attribution is
+% required in any resulting documents.  I do ask that you please leave
+% this notice and the above URL in the source code if you choose to
+% redistribute this file.
+
+\documentclass[11pt,letterpaper]{article}
+
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{hyperref}
+\usepackage{geometry}
+\usepackage{enumitem}
+
+\newlength\listindent
+\setlength\listindent{4.8em}
+
+% Fonts
+\usepackage[T1]{fontenc}
+\usepackage[urw-garamond]{mathdesign}
+
+\usepackage{graphicx}
+\usepackage{wasysym}
+
+\usepackage[export]{adjustbox}
+\usepackage{wrapfig}
+\usepackage[absolute,overlay]{textpos}
+
+\def\name{Lawrence Lee, PhD}
+
+% The following metadata will show up in the PDF properties
+\hypersetup{
+  colorlinks = false,
+  urlcolor = black,
+  pdfauthor = {\name},
+  pdfkeywords = {},
+  pdftitle = {\name: Curriculum Vitae},
+  pdfsubject = {Curriculum Vitae},
+  pdfpagemode = UseNone
+}
+
+% Set your name here
+\geometry{
+  body={6.5in, 9.0in},
+  left=1.0in,
+  top=1.0in
+}
+
+% Customize page headers
+\pagestyle{myheadings}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\pagestyle{fancy}
+\rhead{\thepage\ of \pageref{LastPage}}
+\lhead{\name}
+% \cfoot{}
+% \markright{\name}
+\thispagestyle{empty}
+
+% Custom section fonts
+\usepackage{sectsty}
+\sectionfont{\rmfamily\mdseries\Large}
+\subsectionfont{\rmfamily\mdseries\itshape\large}
+
+% Other possible font commands include:
+% \ttfamily for teletype,
+% \sffamily for sans serif,
+% \bfseries for bold,
+% \scshape for small caps,
+% \normalsize, \large, \Large, \LARGE sizes.
+
+% Don't indent paragraphs.
+\setlength\parindent{0em}
+
+% Make lists without bullets and compact spacing
+\renewenvironment{itemize}{
+  \begin{list}{}{
+    \setlength{\leftmargin}{1.5em}
+    \setlength{\itemsep}{0.25em}
+    \setlength{\parskip}{0pt}
+    \setlength{\parsep}{0.25em}
+  }
+}{
+  \end{list}
+}
+\newenvironment{itemizetight}{
+  \begin{list}{}{
+    \setlength{\leftmargin}{1.5em}
+    \setlength{\itemsep}{-0.0em}
+    \setlength{\parskip}{-1pt}
+    \setlength{\parsep}{0.0em}
+  }
+}{
+  \end{list}
+}
+
+\newenvironment{itemizetightrightpad}{
+  \begin{list}{}{
+    \setlength{\leftmargin}{1.5em}
+    \setlength{\rightmargin}{3em}
+    \setlength{\itemsep}{-0.0em}
+    \setlength{\parskip}{-1pt}
+    \setlength{\parsep}{0.0em}
+  }
+}{
+  \end{list}
+}
+
+\newenvironment{itemizetighter}{
+  \begin{list}{}{
+    \setlength{\leftmargin}{1.5em}
+    \setlength{\itemsep}{-0.em}
+    \setlength{\parskip}{-0pt}
+    \setlength{\parsep}{0.0em}
+  }
+}{
+  \end{list}
+}
+
+
+\def\changemargin#1#2{\list{}{\rightmargin#2\leftmargin#1}\item[]}
+\let\endchangemargin=\endlist
+
+
+\begin{document}
+
+% Place name at left
+% {\huge \name}
+
+% Alternatively, print name centered and bold:
+% \centerline{\huge \bf \name}
+
+% \bigskip
+
+\begin{minipage}[t]{0.4\textwidth}
+% Harvard University\\
+% Department of Physics\\
+% Cambridge, MA, USA, 02138\\
+%  Phone: +41 76 218 0920 \\
+  % \href{mailto:Lawrence.Lee.Jr@cern.ch}{Lawrence.Lee.Jr@cern.ch}; +1 856 765 4622; \href{https://cern.ch/larry}{cern.ch/larry}
+  {\huge \name}
+\end{minipage}
+\begin{minipage}[t]{0.6\textwidth}
+\begin{flushright}
+  \href{mailto:Lawrence.Lee.Jr@cern.ch}{Lawrence.Lee.Jr@cern.ch}\\
+  +1 856 765 4622\\
+  \href{https://cern.ch/larry}{cern.ch/larry}
+  \end{flushright}
+%   CERN CH-1211\\
+%   B\^atiment 40-1-D11\\
+%   23 Gen\`{e}ve, Switzerland
+\end{minipage}
+
+% \begin{picture}(0,0)
+% \put(380,-30){\hbox{\includegraphics[height=12em]{Portrait.jpg}}}
+% \end{picture}
+
+\bigskip
+
+
+\section*{Publications}
+
+  \begin{itemizetight}
+
+  \input{LL_PubInclude.tex}
+
+  \end{itemizetight}
+
+
+
+% Footer
+% \medskip
+\begin{center}
+  \begin{small}
+    Last updated: \today
+  \end{small}
+\end{center}
+
+\end{document}
