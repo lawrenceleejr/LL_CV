@@ -169,7 +169,13 @@
 
 \setlength{\parindent}{0em}
 
-\titlespacing{\section}{0pt}{1.2ex plus .4ex minus .2ex}{0.4ex}
+%% sectsty is loaded after titlesec and wins: it patches \@startsection, which
+%% is what article's \section still goes through, so titlesec's \titleformat
+%% and \titlespacing have no effect here.  Section spacing is therefore
+%% article's own (3.5ex above, 2.3ex below), and only the fonts below apply.
+%% Switching to titlesec means dropping sectsty in the same edit -- with both
+%% loaded, a \titleformat silently loses its font and the headings come back in
+%% the default bold.
 \sectionfont{\displayface\mdseries\Large}
 \subsectionfont{\rmfamily\mdseries\itshape\large}
 
