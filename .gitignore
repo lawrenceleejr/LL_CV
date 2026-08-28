@@ -1,0 +1,23 @@
+# pdflatex working directory (see build.sh)
+build/
+
+# Built PDFs; CI publishes the external ones as workflow artifacts
+LL_CV.pdf
+LL_CV_internal.pdf
+LL_Publications.pdf
+
+# Stray aux files from editors that build in place rather than in build/
+*.aux
+*.fdb_latexmk
+*.fls
+*.lof
+*.log
+*.lot
+*.out
+*.synctex.gz
+*.toc
+
+# Partial write from tools/fetch_inspire.py
+*.tex.tmp
+
+.DS_Store

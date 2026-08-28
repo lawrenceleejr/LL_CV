@@ -1,0 +1,320 @@
+%!TEX root = LL_CV.tex
+%%
+%% Shared preamble for every document in this repository.
+%%
+%%   LL_CV.tex            the full CV, in an external and an internal edition
+%%   LL_Publications.tex  the publication list on its own
+%%
+%% Both are just \documentclass, \input{LL_Preamble.tex}, and a body, so page
+%% geometry, fonts, list styles and the custom commands below are only ever
+%% edited in one place.  A document that wants to differ from a default
+%% overrides it after the \input.
+%%
+%% Template attribution: Jason R. Blevins - Curriculum Vitae
+%% Copyright (C) 2004-2013 Jason R. Blevins
+
+
+%% ===========================================================================
+%% Packages
+%% ===========================================================================
+%% hyperref goes last: it patches internals of most other packages.
+
+\usepackage[T1]{fontenc}
+\usepackage{CormorantGaramond}    % body and heading face
+\usepackage{microtype}            % subtler justification, fewer overfull lines
+\usepackage{wasysym}              % $\RHD$, the "lead role" marker
+\usepackage{graphicx}             % for the (currently disabled) portrait
+
+\usepackage{geometry}             % page size and margins
+\usepackage{fancyhdr}             % running headers
+\usepackage{lastpage}             % "page n of m"
+\usepackage{titlesec}             % section spacing
+\usepackage{sectsty}              % section fonts
+\usepackage{enumitem}             % list configuration
+
+\usepackage[hidelinks]{hyperref}  % clickable links, printed without decoration
+
+
+%% ===========================================================================
+%% Identity
+%% ===========================================================================
+
+\def\name{Lawrence Lee, PhD}
+\def\email{Lawrence.Lee.Jr@cern.ch}
+\def\phone{+1 856 765 4622}
+\def\homepage{cern.ch/larry}
+\def\orcid{0000-0002-5590-335X}
+
+
+%% ===========================================================================
+%% Internal and external editions
+%% ===========================================================================
+%% The internal edition carries material that is not for general circulation:
+%% the current student and postdoc roster, thesis committee membership,
+%% individual refereeing assignments, and student travel awards.  The external
+%% edition is the default and needs no flag; the internal one is selected by
+%% defining \CVinternal before the document is read:
+%%
+%%     pdflatex -jobname=LL_CV_internal "\def\CVinternal{}\input{LL_CV.tex}"
+%%
+%% which is what build.sh and .github/workflows/build-cv.yml do.
+
+\newif\ifCVinternal
+\ifdefined\CVinternal \CVinternaltrue \else \CVinternalfalse \fi
+
+% \internalonly{<content>} -- included only in the internal edition.
+\newcommand{\internalonly}[1]{\ifCVinternal #1\fi}
+
+% \externalonly{<content>} -- included only in the external edition.
+\newcommand{\externalonly}[1]{\ifCVinternal\else #1\fi}
+
+% The internal edition says so in its PDF title, so the two files stay
+% distinguishable once they have been detached from their filenames.
+\ifCVinternal
+  \def\LLedition{\name: Curriculum Vitae (internal edition)}
+\else
+  \def\LLedition{\name: Curriculum Vitae}
+\fi
+
+\hypersetup{
+  colorlinks  = false,
+  pdfauthor   = {\name},
+  pdftitle    = {\LLedition},
+  pdfsubject  = {Curriculum Vitae},
+  pdfkeywords = {},
+  pdfpagemode = UseNone,
+}
+
+
+%% ===========================================================================
+%% Page layout
+%% ===========================================================================
+
+\geometry{
+  body       = {6.5in, 9.0in},
+  left       = 1.0in,
+  top        = 1.0in,
+  headheight = 14pt,   % enough room for the running header; silences fancyhdr
+}
+
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\fancyhead[L]{\name}
+\fancyhead[R]{\thepage}
+
+\setlength{\parindent}{0em}
+
+\titlespacing{\section}{0pt}{0pt}{0pt}
+\sectionfont{\rmfamily\mdseries\Large}
+\subsectionfont{\rmfamily\mdseries\itshape\large}
+
+
+%% ===========================================================================
+%% Lists
+%% ===========================================================================
+%% The CV is built almost entirely from bullet-free lists that differ only in
+%% how tightly they are set.  itemize itself is redefined, rather than
+%% configured through enumitem, so that a plain \begin{itemize} anywhere picks
+%% up the CV style.
+%%
+%%   itemize               default spacing between entries
+%%   itemizetight          no extra space between entries
+%%   itemizetighter        entries set as close as the leading allows
+%%   itemizetightrightpad  tight, and inset from the right margin, for the
+%%                         commentary set underneath an entry
+%%
+%% \LLlist{<left>}{<right>}{<itemsep>}{<parskip>}{<parsep>}
+
+\newcommand{\LLlist}[5]{%
+  \list{}{%
+    \setlength{\leftmargin}{#1}%
+    \setlength{\rightmargin}{#2}%
+    \setlength{\itemsep}{#3}%
+    \setlength{\parskip}{#4}%
+    \setlength{\parsep}{#5}%
+  }%
+}
+
+\renewenvironment{itemize}%
+  {\LLlist{1.5em}{0em}{0.25em}{0pt}{0.25em}}{\endlist}
+\newenvironment{itemizetight}%
+  {\LLlist{1.5em}{0em}{0em}{-1pt}{0em}}{\endlist}
+\newenvironment{itemizetighter}%
+  {\LLlist{1.5em}{0em}{0em}{-0.4em}{0em}}{\endlist}
+\newenvironment{itemizetightrightpad}%
+  {\LLlist{1.5em}{3em}{0em}{-1pt}{0em}}{\endlist}
+
+% Hanging indent for a run-on entry: \parshape 2 3.2em \linewidth \listindent
+% \dimexpr\linewidth-\listindent\relax sets the first line full width and
+% indents every line after it to \listindent.
+\newlength{\listindent}
+\setlength{\listindent}{4.8em}
+
+% \changemargin{<left>}{<right>} ... \endchangemargin -- indents a block of the
+% document; used to nest the collaboration sub-lists under their headings.
+\def\changemargin#1#2{\list{}{\rightmargin#2\leftmargin#1}\item[]}
+\let\endchangemargin=\endlist
+
+
+%% ===========================================================================
+%% The right-hand date column
+%% ===========================================================================
+%% Nearly every entry ends with a date set against the right margin.  \when
+%% supplies both the \hfill and the fixed-width box that lines those dates up
+%% into one column: the box is left-aligned, so "2024" and "2022--24" begin at
+%% the same horizontal position.
+%%
+%% A \makebox is only as wide as it is declared, so an over-long date used to
+%% overflow it silently and print out in the right margin -- six of the dates in
+%% this CV ("2021--2026", "2022--23, 24--25", ...) are wider than the column.
+%% \when measures the date first and sets an over-wide one flush right instead,
+%% which costs the shared left edge on those few entries but keeps every date
+%% inside the text block.
+
+\newlength{\datecolumn}
+\setlength{\datecolumn}{3.5em}
+
+%% The glue ahead of a date is \datesep plus infinite stretch.  The stretch is
+%% what pushes the date to the right margin; the fixed \datesep is a floor, so
+%% an entry that grows long enough to reach its date reports an overfull box
+%% instead of quietly printing its text hard against the year.  Every entry
+%% currently clears it, so the floor costs nothing today -- it is there to catch
+%% the next entry that does not.  \whenflush is the fix when one turns up: it
+%% gives back the empty right-hand part of the date box, about 1.6em for a
+%% four-digit year.
+\newlength{\datesep}
+\setlength{\datesep}{0.4em}
+
+%% \LLdateglue is the glue that carries the date to the right margin.  It reads
+%% as one \hfill most of the time, but is written out so that an entry too long
+%% to hold its date can break: TeX takes the \penalty50, leaves the text on the
+%% line it filled, and the \hbox{} -- which survives the break where glue would
+%% not -- carries the second \hfill onto the next line, so the date still lands
+%% flush right instead of stranded against the left margin.  \unskip drops the
+%% source space ahead of the date, so the gap is \datesep however the entry was
+%% typed.
+\newcommand{\LLdateglue}{%
+  \unskip\nobreak\hspace{\datesep}\hfill\penalty50 \hbox{}\nobreak\hfill
+}
+
+\newlength{\LLdatewidth}
+\newcommand{\when}[1]{%
+  \LLdateglue
+  \settowidth{\LLdatewidth}{#1}%
+  \ifdim\LLdatewidth>\datecolumn #1\else\makebox[\datecolumn][l]{#1}\fi
+}
+
+% \whenflush{<date>} -- for an entry whose text runs so close to the right
+% margin that the shared left edge of the date column will not fit.  Sets the
+% date flush right, giving up the alignment to keep the gap.
+\newcommand{\whenflush}[1]{\LLdateglue #1}
+
+% \rightnote{<text>} -- a right-aligned italic annotation (an award, a current
+% position) hung underneath an entry.  The trailing pad makes it end where a
+% four-digit year in the date column ends, rather than at the margin itself.
+\newcommand{\rightnote}[1]{%
+  \settowidth{\LLdatewidth}{2024}%
+  \hfill\emph{#1}\hspace{\dimexpr\datecolumn-\LLdatewidth\relax}%
+}
+
+
+%% ===========================================================================
+%% Live publication metrics from INSPIRE-HEP
+%% ===========================================================================
+%% Citation counts go stale the moment they are typed, so they are not written
+%% into the CV by hand.  tools/fetch_inspire.py queries the INSPIRE-HEP API and
+%% writes LL_InspireData.tex, a flat list of declarations:
+%%
+%%     \inspiresetcites{2690093}{3}         % citations of one paper
+%%     \inspiresetstat{citations}{207,000}  % an author-level summary figure
+%%
+%% which the CV body reads back through \inspirepub and \inspirestat.  The
+%% values set just below are fallbacks for a build that has never run the
+%% fetcher -- an offline checkout, or Overleaf -- so the document always
+%% compiles with plausible numbers.  build.sh and CI refresh the data first.
+
+% Declarations written by tools/fetch_inspire.py.  The keys live in \csname, so
+% the LL@ namespace prefix needs no \makeatletter here.
+\newcommand{\inspiresetcites}[2]{\expandafter\gdef\csname LL@cites@#1\endcsname{#2}}
+\newcommand{\inspiresetstat}[2]{\expandafter\gdef\csname LL@stat@#1\endcsname{#2}}
+
+% Fallbacks: the last hand-checked figures, overridden by LL_InspireData.tex.
+\inspiresetstat{papers}{1400}
+\inspiresetstat{citations}{202,000}
+\inspiresetstat{hindex}{209}
+
+% \inspirestat{<key>} -- an author-level figure: papers, citations or hindex.
+% A missing key is reported loudly rather than left silently blank.
+\newcommand{\inspirestat}[1]{%
+  \ifcsname LL@stat@#1\endcsname\csname LL@stat@#1\endcsname\else\textbf{[?~#1]}\fi
+}
+
+% \inspirecites{<record>} -- "[n citations]" for a record whose count is known.
+% Nothing is printed for an unknown count, or for one below \citesmin, so a
+% brand-new paper is left unannotated rather than advertising that nobody has
+% cited it yet.
+%
+% The annotation costs about a dozen characters on every entry, which is enough
+% to push an entry that already filled its line onto a second one.  Raising
+% \citesmin, or shortening the label, is the dial if that happens too often.
+\newcommand{\citesmin}{1}
+\newcommand{\LLprintcites}[1]{%
+  \ifnum#1<\citesmin\relax\else
+    \nobreakspace{\small[#1\nobreakspace\ifnum#1=1\relax citation\else citations\fi]}%
+  \fi
+}
+\newcommand{\inspirecites}[1]{%
+  \ifcsname LL@cites@#1\endcsname\LLprintcites{\csname LL@cites@#1\endcsname}\fi
+}
+
+% \inspirepub{<record>}{<title>} -- a publication title in bold, linked to its
+% INSPIRE-HEP record and followed by that record's live citation count.
+\newcommand{\inspirepub}[2]{%
+  \href{https://inspirehep.net/literature/#1}{\textbf{#2}}\inspirecites{#1}%
+}
+
+% \pub{<url>}{<title>} -- the same, for an entry with no INSPIRE-HEP record:
+% arXiv-only preprints, CDS and CERN notes, bare DOI links.
+\newcommand{\pub}[2]{\href{#1}{\textbf{#2}}}
+
+% The generated data, if it has been fetched.  \IfFileExists keeps a fresh
+% checkout compiling on the fallbacks above.
+\IfFileExists{LL_InspireData.tex}{\input{LL_InspireData.tex}}{%
+  \typeout{^^JLL_CV: LL_InspireData.tex not found; using fallback INSPIRE
+figures. Run tools/fetch_inspire.py to refresh them.^^J}%
+}
+
+
+%% ===========================================================================
+%% Title block
+%% ===========================================================================
+
+% \cvheader -- the name, contact details and ORCID that open every document.
+\newcommand{\cvheader}{%
+  \begin{minipage}[t]{0.4\textwidth}
+    {\huge \name}
+  \end{minipage}%
+  \begin{minipage}[t]{0.6\textwidth}
+    \begin{flushright}
+      \href{mailto:\email}{\email}\\
+      \phone\\
+      \href{https://\homepage}{\homepage}\\
+      \href{https://orcid.org/\orcid}{\orcid}
+      % A postal address, if one is ever wanted here:
+      %   CERN CH-1211\\
+      %   B\^atiment 40-1-D11\\
+      %   23 Gen\`{e}ve, Switzerland
+    \end{flushright}
+  \end{minipage}%
+}
+
+% \cvfooter -- the "last updated" line that closes every document.
+\newcommand{\cvfooter}{%
+  \medskip
+  \begin{center}
+    \begin{small}
+      Last updated: \today
+    \end{small}
+  \end{center}%
+}

@@ -1,165 +1,39 @@
-
-
-% Template attribution: Jason R. Blevins - Curriculum Vitae
-% Copyright (C) 2004-2013 Jason R. Blevins
+%% Lawrence Lee -- Curriculum Vitae
+%%
+%% Two editions are produced from this one source:
+%%
+%%   LL_CV.pdf           external, for general circulation
+%%   LL_CV_internal.pdf  internal; additionally carries the current student and
+%%                       postdoc roster, thesis committee membership, individual
+%%                       refereeing assignments, and student travel awards
+%%
+%% Build both with ./build.sh.  Everything shared with LL_Publications.tex --
+%% packages, page layout, list styles, the \internalonly / \externalonly
+%% switches, and the live INSPIRE-HEP citation commands -- lives in
+%% LL_Preamble.tex.  See README.md for the rest.
 
 \documentclass[11pt,letterpaper]{article}
 
-\usepackage{fancyhdr}
-\usepackage{lastpage}
-\usepackage[hidelinks]{hyperref}
-\usepackage{geometry}
-\usepackage{enumitem}
-\usepackage{titlesec}
-\usepackage{ifthen}
-
-\newboolean{internal}
-\setboolean{internal}{false}  % or {false}
-
-% \ifthenelse{\equal{\internalbool}{true}}{
-%   \setboolean{internal}{true}
-% }{
-%   \setboolean{internal}{false}
-% }
-
-
-\titlespacing{\section}{0pt}{0.0}{0.0}
-
-\newlength\listindent
-\setlength\listindent{4.8em}
-
-\usepackage[T1]{fontenc}
-\usepackage{CormorantGaramond}
-\usepackage{graphicx}
-\usepackage{wasysym}
-
-\usepackage[export]{adjustbox}
-\usepackage{wrapfig}
-\usepackage[absolute,overlay]{textpos}
-
-\def\name{Lawrence Lee, PhD}
-
-% The following metadata will show up in the PDF properties
-\hypersetup{
-  colorlinks = false,
-  urlcolor = black,
-  pdfauthor = {\name},
-  pdfkeywords = {},
-  pdftitle = {\name: Curriculum Vitae},
-  pdfsubject = {Curriculum Vitae},
-  pdfpagemode = UseNone
-}
-
-\geometry{
-  body={6.5in, 9.0in},
-  left=1.0in,
-  top=1.0in
-}
-
-\pagestyle{myheadings}
-\fancyhf{}
-\renewcommand{\headrulewidth}{0pt}
-\pagestyle{fancy}
-\rhead{\thepage}
-\lhead{\name}
-\thispagestyle{empty}
-
-\usepackage{sectsty}
-\sectionfont{\rmfamily\mdseries\Large}
-\subsectionfont{\rmfamily\mdseries\itshape\large}
-
-\setlength\parindent{0em}
-
-% Make lists without bullets and compact spacing
-\renewenvironment{itemize}{
-  \begin{list}{}{
-    \setlength{\leftmargin}{1.5em}
-    \setlength{\itemsep}{0.25em}
-    \setlength{\parskip}{0pt}
-    \setlength{\parsep}{0.25em}
-  }
-}{
-  \end{list}
-}
-\newenvironment{itemizetight}{
-  \begin{list}{}{
-    \setlength{\leftmargin}{1.5em}
-    % \setlength{\rightmargin}{3em}
-    \setlength{\itemsep}{0.em}
-    \setlength{\parskip}{-1pt}
-    \setlength{\parsep}{0.0em}
-  }
-}{
-  \end{list}
-}
-
-\newenvironment{itemizetightrightpad}{
-  \begin{list}{}{
-    \setlength{\leftmargin}{1.5em}
-    \setlength{\rightmargin}{3em}
-    \setlength{\itemsep}{-0.0em}
-    \setlength{\parskip}{-1pt}
-    \setlength{\parsep}{0.0em}
-  }
-}{
-  \end{list}
-}
-
-\newenvironment{itemizetighter}{
-  \begin{list}{}{
-    \setlength{\leftmargin}{1.5em}
-    \setlength{\itemsep}{0em}
-    \setlength{\parskip}{-.4em}
-    \setlength{\parsep}{0.0em}
-  }
-}{
-  \end{list}
-}
-
-
-\def\changemargin#1#2{\list{}{\rightmargin#2\leftmargin#1}\item[]}
-\let\endchangemargin=\endlist
+\input{LL_Preamble.tex}
 
 
 \begin{document}
+\thispagestyle{empty}   % no running header on the first page
 
-% Place name at left
-% {\huge \name}
+\cvheader
 
-% Alternatively, print name centered and bold:
-% \centerline{\huge \bf \name}
-
-% \bigskip
-
-\begin{minipage}[t]{0.4\textwidth}
-% Harvard University\\
-% Department of Physics\\
-% Cambridge, MA, USA, 02138\\
-%  Phone: +41 76 218 0920 \\
-  % \href{mailto:Lawrence.Lee.Jr@cern.ch}{Lawrence.Lee.Jr@cern.ch}; +1 856 765 4622; \href{https://cern.ch/larry}{cern.ch/larry}
-  {\huge \name}
-\end{minipage}
-\begin{minipage}[t]{0.6\textwidth}
-\begin{flushright}
-  \href{mailto:Lawrence.Lee.Jr@cern.ch}{Lawrence.Lee.Jr@cern.ch}\\
-  +1 856 765 4622\\
-  \href{https://cern.ch/larry}{cern.ch/larry}\\
-  \href{https://orcid.org/0000-0002-5590-335X}{0000-0002-5590-335X}
-  \end{flushright}
-%   CERN CH-1211\\
-%   B\^atiment 40-1-D11\\
-%   23 Gen\`{e}ve, Switzerland
-\end{minipage}
-
-% \begin{picture}(0,0)
-% \put(380,-30){\hbox{\includegraphics[height=12em]{Portrait.jpg}}}
-% \end{picture}
+% Alternative title blocks, kept for reference:
+%   \centerline{\huge \bf \name}          % name centred and bold
+%   \begin{picture}(0,0)                  % portrait in the top right corner
+%     \put(380,-30){\hbox{\includegraphics[height=12em]{Portrait.jpg}}}
+%   \end{picture}
 
 \bigskip
 
-
+% Spacer that holds the vertical gap ahead of the first section.  It pairs with
+% the summary paragraph below, which is currently disabled.
 \begin{minipage}[t]{1.3em}
-\hspace{1em}
+  \hspace{1em}
 \end{minipage}
 % \begin{minipage}[t]{0.75\textwidth}
 % \emph{Broadly-trained particle physicist with expertise in searching for physics beyond the standard model at particle colliders. Particular expertise in supersymmetry, long-lived particles, and unconventional searches. Technical skills include expertise in detector data acquisition system, analysis software, and detector simulation.}
@@ -171,20 +45,20 @@
   \begin{itemizetight}
 
 
-    \item Associate Professor, University of Tennessee, Knoxville \hfill\makebox[3.5em][l]{2026--}
-    \item Assistant Professor, University of Tennessee, Knoxville \hfill\makebox[3.5em][l]{2021--2026}
+    \item Associate Professor, University of Tennessee, Knoxville \when{2026--}
+    \item Assistant Professor, University of Tennessee, Knoxville \when{2021--2026}
 
     % \begin{itemizetighter}
     %   \item {University of Tennessee}, Knoxville, TN
     % \end{itemizetighter}
 
-    \item Research Associate, Harvard University - \emph{Supervisor: J. Huth} \hfill \makebox[3.5em][l]{2016--21}
+    \item Research Associate, Harvard University - \emph{Supervisor: J. Huth} \when{2016--21}
 
     % \begin{itemizetighter}
     %   \item {Harvard University}, Cambridge, MA -- \emph{Supervisor: J. Huth}
     % \end{itemizetighter}
 
-    \item Research Associate, University of Adelaide - \emph{Supervisor: P. Jackson} \hfill \makebox[3.5em][l]{2014--16}
+    \item Research Associate, University of Adelaide - \emph{Supervisor: P. Jackson} \when{2014--16}
 
     % \begin{itemizetighter}
     %   \item {The University of Adelaide}, Adelaide, Australia -- \emph{Supervisor: P. Jackson}
@@ -196,12 +70,12 @@
 \section*{Education}
 
   \begin{itemizetight}
-    \item Ph.D., M.Phil., M.S., Physics, {Yale University} - \emph{Supervisor: T. Golling} \hfill \makebox[3.5em][l]{2014}
+    \item Ph.D., M.Phil., M.S., Physics, {Yale University} - \emph{Supervisor: T. Golling} \when{2014}
     % \begin{itemizetighter}
     %       \item \emph{Supervisor: T. Golling}
     % \end{itemizetighter}
-    % \item M.S., M.Phil. Physics, {Yale University} \hfill 2012
-    \item B.S. Physics, {Rutgers University} - \emph{Supervisors: R. Ransome, R. Gilman, R. Tumulka} \hfill \makebox[3.5em][l]{2009}
+    % \item M.S., M.Phil. Physics, {Yale University} \when{2012}
+    \item B.S. Physics, {Rutgers University} - \emph{Supervisors: R. Ransome, R. Gilman, R. Tumulka} \when{2009}
 
   %   \begin{itemizetighter}
   %         \item \emph{Supervisors: R. Ransome, R. Gilman, R. Tumulka}
@@ -217,19 +91,18 @@
 %     \end{itemizetightrightpad}
 
 
-
 \section*{Awards \textit{\&} Honors}
 
 \emph{External}
 
   \begin{itemizetighter}
-    \item Cottrell Lectureship \hfill \makebox[3.5em][l]{2026}
-    \item Fermilab LHC Physics Center Senior Distinguished Researcher \hfill \makebox[3.5em][l]{2026}
-    \item Breakthrough Prize in Fundamental Physics Laureate  \hfill \makebox[3.5em][l]{2025}
+    \item Cottrell Lectureship \when{2026}
+    \item Fermilab LHC Physics Center Senior Distinguished Researcher \when{2026}
+    \item Breakthrough Prize in Fundamental Physics Laureate  \when{2025}
     \item \hspace{2em}\emph{as part of the ATLAS and CMS Collaborations}
-    \item Cottrell Scholar - Research Corporation for Science Advancement \hfill \makebox[3.5em][l]{2025}
-    \item NSF CAREER Award \hfill \makebox[3.5em][l]{2023}
-    \item European Physical Society's High Energy and Particle Physics Prize \hfill \makebox[3.5em][l]{2013}
+    \item Cottrell Scholar - Research Corporation for Science Advancement \when{2025}
+    \item NSF CAREER Award \when{2023}
+    \item European Physical Society's High Energy and Particle Physics Prize \when{2013}
     \item \hspace{2em}\emph{as part of the ATLAS Collaboration}
   \end{itemizetighter}
 
@@ -237,12 +110,12 @@
 \emph{University of Tennessee, Knoxville}
 
 \begin{itemizetighter}
-  \item University of Tennessee Alumni Association -  Alumni Outstanding Teacher Award \hfill \makebox[3.5em][l]{2025}
-  \item UTK Division of Student Success - Faculty Research Mentor Award \hfill \makebox[3.5em][l]{2025}
-  \item UTK Provost - Junior Faculty Fellow \hfill \makebox[3.5em][l]{2023--25}
-  \item UTK Physics - Research Advisor of the Year \hfill \makebox[3.5em][l]{2023--24}
-  \item UTK College of Arts and Sciences - Faculty Academic Outreach Teaching Award \hfill \makebox[3.5em][l]{2022}
-  \item UTK Physics - Teacher of the Year \hfill \makebox[3.5em][l]{2021--22}
+  \item University of Tennessee Alumni Association -  Alumni Outstanding Teacher Award \when{2025}
+  \item UTK Division of Student Success - Faculty Research Mentor Award \when{2025}
+  \item UTK Provost - Junior Faculty Fellow \when{2023--25}
+  \item UTK Physics - Research Advisor of the Year \when{2023--24}
+  \item UTK College of Arts and Sciences - Faculty Academic Outreach Teaching Award \when{2022}
+  \item UTK Physics - Teacher of the Year \when{2021--22}
 \end{itemizetighter}
 
 
@@ -251,41 +124,41 @@
 \emph{Multi-Year Grants}
 
   \begin{itemizetighter}
-    \item BNL Subcontract on Accelerator Physics - \$190k \hfill \makebox[3.5em][l]{2025--29 }
-    \item Cottrell Scholar - Research Corporation for Science Advancement - \$120k \hfill \makebox[3.5em][l]{2025--28}
-    \item DOE Award for UTK HEP (4 PIs) - \$1.425M \hfill \makebox[3.5em][l]{2024--27  }
-    \item NSF CAREER Award - \$1M \hfill \makebox[3.5em][l]{2023--28}
-    \item USCMS Upgrade Project Funding - \$73k \hfill \makebox[3.5em][l]{2022--24}
-    \item Single-PI DOE Award - \$250k \hfill \makebox[3.5em][l]{2022--24}
+    \item BNL Subcontract on Accelerator Physics - \$190k \when{2025--29}
+    \item Cottrell Scholar - Research Corporation for Science Advancement - \$120k \when{2025--28}
+    \item DOE Award for UTK HEP (4 PIs) - \$1.425M \when{2024--27}
+    \item NSF CAREER Award - \$1M \when{2023--28}
+    \item USCMS Upgrade Project Funding - \$73k \when{2022--24}
+    \item Single-PI DOE Award - \$250k \when{2022--24}
   \end{itemizetighter}
 
 
   \emph{Other Funding}
 
   \begin{itemizetighter}
-    \item Fermilab LHC Physics Center - \$56k\hfill \makebox[3.5em][l]{2026}
-    \item Universities Research Association - \$7k\hfill \makebox[3.5em][l]{2026}
-    \item Fermilab LHC Physics Center (Postdoc Emery Nibigira Led) - \$43k\hfill \makebox[3.5em][l]{2024}
-    \item Universities Research Association (Postdoc Emery Nibigira Led) - \$20k\hfill \makebox[3.5em][l]{2024}
-    \item UT-Battelle (ORNL Management Contractor) - \$74k \hfill \makebox[3.5em][l]{2024}
-    \ifthenelse{\boolean{internal}}{
-      \item UTK Graduate Student Senate Travel Award - John Lawless - \$1k\hfill \makebox[3.5em][l]{2024}
-      \item SESAPS Travel Grant - Caroline Riggall - \$325 \hfill \makebox[3.5em][l]{2024}
-      \item SESAPS Travel Grant - Charles Bell - \$500 \hfill \makebox[3.5em][l]{2023}
-      \item SESAPS Travel Grant - Lacey Dishman - \$500 \hfill \makebox[3.5em][l]{2023}
-      \item UTK Faculty Research Assistants Funding - Tanner Wolfe - \$2.3k \hfill \makebox[3.5em][l]{2023}
-      \item FNAL LPC Guest \textit{\&} Visitor Funding - Emery Nibigira - \$5.2k \hfill \makebox[3.5em][l]{2023}
-      \item FNAL LPC Guest \textit{\&} Visitor Funding - John Lawless - \$3.9k \hfill \makebox[3.5em][l]{2023}
-      \item UTK Faculty Research Assistants Funding - Taylor Sussmane - \$2.3k \hfill \makebox[3.5em][l]{2022}
-      \item SESAPS Travel Grant - Taylor Sussmane - \$500 \hfill \makebox[3.5em][l]{2022}
-      \item SESAPS Travel Grant - Alexander Sizemore - \$500 \hfill \makebox[3.5em][l]{2022}
-      \item FNAL LPC Guest \textit{\&} Visitor Funding - Ramon Ogaz - \$2.8k \hfill \makebox[3.5em][l]{2022}
-      \item FNAL LPC Guest \textit{\&} Visitor Funding - Philipp Wagenknecht - \$5.2k \hfill \makebox[3.5em][l]{2022}
-      \item UTK Physics Summer Research Fellowship - Matthew Durkee - \$6k \hfill \makebox[3.5em][l]{2022}
+    \item Fermilab LHC Physics Center - \$56k\when{2026}
+    \item Universities Research Association - \$7k\when{2026}
+    \item Fermilab LHC Physics Center (Postdoc Emery Nibigira Led) - \$43k\when{2024}
+    \item Universities Research Association (Postdoc Emery Nibigira Led) - \$20k\when{2024}
+    \item UT-Battelle (ORNL Management Contractor) - \$74k \when{2024}
+    \internalonly{
+      \item UTK Graduate Student Senate Travel Award - John Lawless - \$1k\when{2024}
+      \item SESAPS Travel Grant - Caroline Riggall - \$325 \when{2024}
+      \item SESAPS Travel Grant - Charles Bell - \$500 \when{2023}
+      \item SESAPS Travel Grant - Lacey Dishman - \$500 \when{2023}
+      \item UTK Faculty Research Assistants Funding - Tanner Wolfe - \$2.3k \when{2023}
+      \item FNAL LPC Guest \textit{\&} Visitor Funding - Emery Nibigira - \$5.2k \when{2023}
+      \item FNAL LPC Guest \textit{\&} Visitor Funding - John Lawless - \$3.9k \when{2023}
+      \item UTK Faculty Research Assistants Funding - Taylor Sussmane - \$2.3k \when{2022}
+      \item SESAPS Travel Grant - Taylor Sussmane - \$500 \when{2022}
+      \item SESAPS Travel Grant - Alexander Sizemore - \$500 \when{2022}
+      \item FNAL LPC Guest \textit{\&} Visitor Funding - Ramon Ogaz - \$2.8k \when{2022}
+      \item FNAL LPC Guest \textit{\&} Visitor Funding - Philipp Wagenknecht - \$5.2k \when{2022}
+      \item UTK Physics Summer Research Fellowship - Matthew Durkee - \$6k \when{2022}
     }
 
 
-    \item George Southgate Fellowship, The University of Adelaide - 5k AUD \hfill \makebox[3.5em][l]{2015}
+    \item George Southgate Fellowship, The University of Adelaide - 5k AUD \when{2015}
   \end{itemizetighter}
 
 
@@ -294,8 +167,7 @@
   \begin{itemize}
 
 
-
-  \item {\sc Member of the CMS Collaboration} \hfill  \makebox[3.5em][l]{2021--}
+  \item \textsc{Member of the CMS Collaboration} \when{2021--}
 
 
   \begin{changemargin}{0in}{0.0in}
@@ -306,22 +178,22 @@
     \vspace{0.1em}
     \begin{itemizetighter}
 
-        \item \textit{Co-convener} LHCC Long-Lived Particle Working Group \hfill  \makebox[3.5em][l]{2022--2025}
+        \item \textit{Co-convener} LHCC Long-Lived Particle Working Group \when{2022--2025}
 
-        \item Heavy Stable Charged Particle Search \hfill  \makebox[3.5em][l]{2022--}
+        \item Heavy Stable Charged Particle Search \when{2022--}
 
         % \begin{itemizetightrightpad}
         % \item \it Searching for detector-stable particles carrying electric charge and leaving anomalous ionization and timing signatures in the CMS detector.
         % \end{itemizetightrightpad}
 
 
-        \item Multijet Search \hfill  \makebox[3.5em][l]{2023--}
+        \item Multijet Search \when{2023--}
 
         % \begin{itemizetightrightpad}
         % \item \it Searching for new physics in multijet final states using conventional techniques and machine learning
         % \end{itemizetightrightpad}
 
-        \item Recursive Jigsaw Reconstruction Search \hfill  \makebox[3.5em][l]{2022}
+        \item Recursive Jigsaw Reconstruction Search \when{2022}
 
         % \begin{itemizetightrightpad}
         % \item \it Contributed to calculation of exclusion limits for a search for compressed supersymmetry spectra using the Recursive Jigsaw Reconstruction method.
@@ -335,22 +207,21 @@
     \vspace{0.1em}
     \begin{itemizetighter}
 
-      \item \textit{US CMS Level-3 Manager} for OT Electronics \hfill  \makebox[3.5em][l]{2024--}
-      \item \textit{US CMS Control Account Manager} for OT DAQ \hfill  \makebox[3.5em][l]{2024--}
-      
-      \item Phase-II Tracker DAQ Software \hfill  \makebox[3.5em][l]{2021--}
+      \item \textit{US CMS Level-3 Manager} for OT Electronics \when{2024--}
+      \item \textit{US CMS Control Account Manager} for OT DAQ \when{2024--}
 
-      \item Outer Tracker Module Assembly and Grading \hfill  \makebox[3.5em][l]{2022--}
+      \item Phase-II Tracker DAQ Software \when{2021--}
+
+      \item Outer Tracker Module Assembly and Grading \when{2022--}
 
     \end{itemizetighter}
-
 
 
     \end{itemize}
   \end{changemargin}
 
 
-  \item {\sc Member of the ATLAS Collaboration} \hfill  \makebox[3.5em][l]{2009--21}
+  \item \textsc{Member of the ATLAS Collaboration} \when{2009--21}
 
   \begin{changemargin}{0in}{0.0in}
     \begin{itemize}
@@ -371,48 +242,47 @@
     \vspace{0.1em}
     \begin{itemizetighter}
 
-        \item Common BSM Result Interpretation Framework \hfill  \makebox[3.5em][l]{2018--21}
+        \item Common BSM Result Interpretation Framework \when{2018--21}
 
         % \begin{itemizetightrightpad}
         % \item \it Responsible for standards of exclusion interpretation and limit interpolation within the ATLAS SUSY working group, implementing new methods for presentation of results
         % \end{itemizetightrightpad}
 
-        \item \textit{Co-convener} of SUSY RPV/LL sub-group \hfill  \makebox[3.5em][l]{2017--19}
+        \item \textit{Co-convener} of SUSY RPV/LL sub-group \when{2017--19}
 
         % \begin{itemizetightrightpad}
         % \item \it Defined standards and direction of searches for long-lived particles and $R$-parity-violating supersymmetry. Served two terms.
         % \end{itemizetightrightpad}
 
-        \item Searches for Long-Lived Particles \hfill  \makebox[3.5em][l]{2016--21}
+        \item Searches for Long-Lived Particles \when{2016--21}
 
         % \begin{itemizetightrightpad}
         % \item \it Led many analysis teams in searches for long-lived particles in a variety of signatures. See Publications.
         % \end{itemizetightrightpad}
         % \pagebreak
 
-        \item Common Analysis Software Development \hfill  \makebox[3.5em][l]{2015--21}
+        \item Common Analysis Software Development \when{2015--21}
 
         % \begin{itemizetightrightpad}
         % \item \it Primary developer of common analysis software used by roughly ten analysis teams
         % \end{itemizetightrightpad}
 
 
-        \item Inclusive searches for Supersymmetry \hfill  \makebox[3.5em][l]{2014--16}
+        \item Inclusive searches for Supersymmetry \when{2014--16}
 
         % \begin{itemizetightrightpad}
         % \item \it Led flagship search for supersymmetry in inclusive zero-lepton final states in 2016 including leading the first searches for new physics using ``Recursive Jigsaw'' variables. Created and commissioned novel triggers for use during Run-2 of the LHC geared toward finding new physics in low-mass-splitting scenarios.
         % \end{itemizetightrightpad}
 
 
-        \item All-Hadronic BSM Signatures \hfill  \makebox[3.5em][l]{2011--14}
+        \item All-Hadronic BSM Signatures \when{2011--14}
 
         % \begin{itemizetightrightpad}
         % \item \it Led two searches for new phenomena in the context of $R$-Parity violating supersymmetry in fully hadronic final states
         % \end{itemizetightrightpad}
 
 
-
-        \item Quark-vs-Gluon Jet Tagging \hfill  \makebox[3.5em][l]{2010--12}
+        \item Quark-vs-Gluon Jet Tagging \when{2010--12}
 
         % \begin{itemizetightrightpad}
         % \item \it Developed the first quark- vs. gluon-jet discriminator at a hadron collider
@@ -425,19 +295,19 @@
     \vspace{0.1em}
     \begin{itemizetighter}
 
-      \item \textit{Coordinator} Micromegas Trigger \hfill  \makebox[3.5em][l]{2020}
+      \item \textit{Coordinator} Micromegas Trigger \when{2020}
 
       % \begin{itemizetightrightpad}
       % \item \it Integration of trigger electronics for the micromegas detector of the New Small Wheel (NSW) upgrade for the ATLAS muon spectrometer
       % \end{itemizetightrightpad}
 
-      \item Online Software Coordination \hfill  \makebox[3.5em][l]{2019--20}%\hspace{0.9em}}
+      \item Online Software Coordination \when{2019--20}%\hspace{0.9em}}
 
       % \begin{itemizetightrightpad}
       % \item \it Designed, implemented, and/or maintain the readout, configuration, and calibration software systems for the NSW
       % \end{itemizetightrightpad}
 
-      % \item Micromegas Digitization \hfill  \makebox[3.5em][l]{2017--18}
+      % \item Micromegas Digitization \when{2017--18}
 
       % \begin{itemizetightrightpad}
       % \item \it Responsible for digitization and simulation of the readout and trigger paths for the micromegas detector for the NSW
@@ -449,61 +319,59 @@
     \end{itemize}
   \end{changemargin}
 
-  \item {\sc Muon Collider Projects} \hfill  \makebox[3.5em][l]{2020--}
+  \item \textsc{Muon Collider Projects} \when{2020--}
 
   \begin{changemargin}{0in}{0.0in}
     \begin{itemizetight}
 
-      \item \emph{USMCC Deputy Communication Coordinator} \hfill  \makebox[3.5em][l]{2025-- }
-      \item 10 TeV MAIA Detector Concept Characterization \hfill  \makebox[3.5em][l]{2023-- }
-      \item \emph{Taskforce Member} IMCC Software Taskforce \hfill  \makebox[3.5em][l]{2024 }
+      \item \emph{USMCC Deputy Communication Coordinator} \when{2025--}
+      \item 10 TeV MAIA Detector Concept Characterization \when{2023--}
+      \item \emph{Taskforce Member} IMCC Software Taskforce \when{2024}
 
-      \item Automating Professional 3D Rendering for Collider Event Displays \hfill  \makebox[3.5em][l]{2023-- }
+      \item Automating Professional 3D Rendering for Collider Event Displays \when{2023--}
 
-      \item Simulation Software Workflow Development \hfill  \makebox[3.5em][l]{2020--22}
+      \item Simulation Software Workflow Development \when{2020--22}
 
     \end{itemizetight}
   \end{changemargin}
 
 
-
-  \item {\sc Accelerator Physics Projects} \hfill  \makebox[3.5em][l]{2024--}
+  \item \textsc{Accelerator Physics Projects} \when{2024--}
 
   \begin{changemargin}{0in}{0.0in}
     \begin{itemizetight}
 
-    \item Helical FOFO Design for Muon Cooling for a Future Muon Collider \hfill  \makebox[3.5em][l]{2024-- }
+    \item Helical FOFO Design for Muon Cooling for a Future Muon Collider \when{2024--}
 
-    \item Using Self-Consistent Beam Distributions to Reduce Intra-Beam Stripping \hfill  \makebox[3.5em][l]{2024-- }
+    \item Using Self-Consistent Beam Distributions to Reduce Intra-Beam Stripping \when{2024--}
 
     \end{itemizetight}
   \end{changemargin}
 
 
-
-  \item {\sc External Collider Physics}
+  \item \textsc{External Collider Physics}
 
 
     \begin{itemizetight}
 
-    \item Experimental Impact of Jet Fragmentation Reference Frames At Particle Colliders \hfill  \makebox[3.5em][l]{2022-- }
+    \item Experimental Impact of Jet Fragmentation Reference Frames At Particle Colliders \when{2022--}
 
 
-    \item Future collider projections for photon-induced production of charged BSM particles \hfill  \makebox[3.5em][l]{2018--21}
-    
-    \item Bell Inequalities at Future $ee$ Colliders \hfill  \makebox[3.5em][l]{2013-- }
+    \item Future collider projections for photon-induced production of charged BSM particles \when{2018--21}
+
+    \item Bell Inequalities at Future $ee$ Colliders \when{2013--}
 
     \end{itemizetight}
 
 
-  \item {\sc Nucleon Physics Research} \hfill  \makebox[3.5em][l]{2007--09}
+  \item \textsc{Nucleon Physics Research} \when{2007--09}
 
-  % \item Developed the prototype trigger and data acquisition systems for Fermilab E-906/SeaQuest \hfill  \makebox[3.5em][l]{2008--2009}
+  % \item Developed the prototype trigger and data acquisition systems for Fermilab E-906/SeaQuest \when{2008--2009}
 
   \begin{changemargin}{0in}{0.0in}
     \begin{itemizetightrightpad}
             \parshape 2 3.2em \linewidth \listindent \dimexpr\linewidth-\listindent\relax
-    
+
     \item Developed the prototype trigger and data acquisition systems for Fermilab E-906/SeaQuest\vspace{0.2em}
     \item Assembled the photomultiplier tube units used in MINERvA\vspace{0.2em}
     \item Upgraded a Fabry-Perot cavity for use in a JLAB Compton polarimeter\vspace{0.2em}
@@ -577,55 +445,54 @@
 %   \end{itemize}
 
 
-
 \section*{Professional Activities}
 
 
   \begin{itemizetighter}
-    \ifthenelse{\boolean{internal}}{
-      \item \emph{Journal Referee:} PRD \hfill \makebox[3.5em][l]{2025}
+    \internalonly{
+      \item \emph{Journal Referee:} PRD \when{2025}
     }
-    \item RCSA Reviewer \hfill \makebox[3.5em][l]{2026} % For Cottrell
-    \item Lead organizer, $\mu$CATALYST summer accelerator program \hfill \makebox[3.5em][l]{2026} 
-    \item Chair of Fermilab \emph{Colliders of Tomorrow} Committee \hfill \makebox[3.5em][l]{2025--} 
-    \item US LHC Users Association (USLUA) Executive Committee Member \hfill \makebox[3.5em][l]{2022--25}
-    \item NSF Reviewer \hfill \makebox[3.5em][l]{2025} % For Kathy
-    \item NSF Review Panel \hfill \makebox[3.5em][l]{2025}
-    \item DOE Reviewer \hfill \makebox[3.5em][l]{2025}
-    \item USCMS Phase-II Upgrade Level-3 Manager for Outer Tracker DAQ \hfill \makebox[3.5em][l]{2024--}
-    \ifthenelse{\boolean{internal}}{
-      \item \emph{Journal Referee:} PRD \hfill \makebox[3.5em][l]{2024}
-      \item \emph{Journal Referee:} EPJC \hfill \makebox[3.5em][l]{2024}
-    }
-    
-    \item Swiss National Science Foundation Reviewer \hfill \makebox[3.5em][l]{2024}
-    \item International Muon Collider Collaboration Software Task Force \hfill \makebox[3.5em][l]{2024}
-    \item US Muon Collider Collaboration Membership Coordinator \hfill \makebox[3.5em][l]{2024}
-    \item US CMS (DOE+NSF) Project Review Panel \hfill \makebox[3.5em][l]{2024}
-    \item NSF Reviewer ($\times$3 occassions) \hfill \makebox[3.5em][l]{2024}
-    \item NSF Review Panel \hfill \makebox[3.5em][l]{2024}
-    \ifthenelse{\boolean{internal}}{
-      \item \emph{Journal Referee:} PRD \hfill \makebox[3.5em][l]{2024}
+    \item RCSA Reviewer \when{2026} % For Cottrell
+    \item Lead organizer, $\mu$CATALYST summer accelerator program \when{2026}
+    \item Chair of Fermilab \emph{Colliders of Tomorrow} Committee \when{2025--}
+    \item US LHC Users Association (USLUA) Executive Committee Member \when{2022--25}
+    \item NSF Reviewer \when{2025} % For Kathy
+    \item NSF Review Panel \when{2025}
+    \item DOE Reviewer \when{2025}
+    \item USCMS Phase-II Upgrade Level-3 Manager for Outer Tracker DAQ \when{2024--}
+    \internalonly{
+      \item \emph{Journal Referee:} PRD \when{2024}
+      \item \emph{Journal Referee:} EPJC \when{2024}
     }
 
-    \item NSF Reviewer \hfill \makebox[3.5em][l]{2023}
-    \item DOE Reviewer \hfill \makebox[3.5em][l]{2023}
-    \item LHC LLP Working Group Convener \hfill \makebox[3.5em][l]{2022--25}
-    \item SESAPS Nominating Committee \hfill \makebox[3.5em][l]{2022--23}
-    \item Physics Today Consultant \hfill \makebox[3.5em][l]{2022}
-    \ifthenelse{\boolean{internal}}{
-      \item \emph{Journal Referee:} Universe \hfill \makebox[3.5em][l]{2022}
-      \item \emph{Journal Referee:} Universe \hfill \makebox[3.5em][l]{2022}
-      \item \emph{Journal Referee:} Instruments \hfill \makebox[3.5em][l]{2021}
-      \item \emph{Journal Referee:} PRD \hfill \makebox[3.5em][l]{2021}
-      \item \emph{Journal Referee:} LHEP \hfill \makebox[3.5em][l]{2021}
-      \item \emph{Journal Referee:} PRL \hfill \makebox[3.5em][l]{2020}
-      \item \emph{Journal Referee:} PRL \hfill \makebox[3.5em][l]{2018}
+    \item Swiss National Science Foundation Reviewer \when{2024}
+    \item International Muon Collider Collaboration Software Task Force \when{2024}
+    \item US Muon Collider Collaboration Membership Coordinator \when{2024}
+    \item US CMS (DOE+NSF) Project Review Panel \when{2024}
+    \item NSF Reviewer ($\times$3 occassions) \when{2024}
+    \item NSF Review Panel \when{2024}
+    \internalonly{
+      \item \emph{Journal Referee:} PRD \when{2024}
     }
-    
-    \ifthenelse{\boolean{internal}}{}{
-      \item Journal Referee for Physical Review Letters, Physical Review D, \hfill \makebox[3.5em][l]{2018--}
-      \item \hspace{2em} EPJC, Instruments, Letters in High Energy Physics, Universe 
+
+    \item NSF Reviewer \when{2023}
+    \item DOE Reviewer \when{2023}
+    \item LHC LLP Working Group Convener \when{2022--25}
+    \item SESAPS Nominating Committee \when{2022--23}
+    \item Physics Today Consultant \when{2022}
+    \internalonly{
+      \item \emph{Journal Referee:} Universe \when{2022}
+      \item \emph{Journal Referee:} Universe \when{2022}
+      \item \emph{Journal Referee:} Instruments \when{2021}
+      \item \emph{Journal Referee:} PRD \when{2021}
+      \item \emph{Journal Referee:} LHEP \when{2021}
+      \item \emph{Journal Referee:} PRL \when{2020}
+      \item \emph{Journal Referee:} PRL \when{2018}
+    }
+
+    \externalonly{
+      \item Journal Referee for Physical Review Letters, Physical Review D, \when{2018--}
+      \item \hspace{2em} EPJC, Instruments, Letters in High Energy Physics, Universe
     }
   \end{itemizetighter}
 
@@ -637,119 +504,118 @@
   % \begin{itemize}
   \begin{itemizetighter}
 
-  
-    % \item University of Florida -- \textit{Physics Colloquium, Forthcoming} \hfill 2026
 
-    \item UC San Diego -- \textit{Physics Colloquium, Cottrell Lecture} \hfill 2026 % May 7, 2026
-    
-    \item San Diego State University -- \textit{Physics Colloquium, Cottrell Lecture} \hfill 2026 % May 8, 2026
+    % \item University of Florida -- \textit{Physics Colloquium, Forthcoming} \when{2026}
 
-    \item Cornell University -- \textit{HEP Seminar} \hfill 2026 % April 24, 2026
+    \item UC San Diego -- \textit{Physics Colloquium, Cottrell Lecture} \when{2026} % May 7, 2026
 
-    \item Fermilab -- \textit{Wine \& Cheese Seminar} \hfill 2026 %16 Jan 2026
+    \item San Diego State University -- \textit{Physics Colloquium, Cottrell Lecture} \when{2026} % May 8, 2026
 
-    \item Yale University -- \textit{NPA Seminar} \hfill 2024 %9 May 2024
+    \item Cornell University -- \textit{HEP Seminar} \when{2026} % April 24, 2026
 
-    \item New York University -- \textit{Physics Colloquium} \hfill 2024 %March 2024
+    \item Fermilab -- \textit{Wine \& Cheese Seminar} \when{2026} %16 Jan 2026
 
-    \item University of California, Irvine, Virtual -- \textit{AI Seminar} \hfill2022
+    \item Yale University -- \textit{NPA Seminar} \when{2024} %9 May 2024
+
+    \item New York University -- \textit{Physics Colloquium} \when{2024} %March 2024
+
+    \item University of California, Irvine, Virtual -- \textit{AI Seminar} \when{2022}
     % July 12, 2022
 
-    \item University of Kansas, Lawrence, KS -- \emph{Particle Physics on the Plains} \hfill2022
+    \item University of Kansas, Lawrence, KS -- \emph{Particle Physics on the Plains} \when{2022}
     % March 8, 2022
 
-    \item University of Tennessee, Knoxville, TN -- \emph{HEP Seminar} \hfill2021%
+    \item University of Tennessee, Knoxville, TN -- \emph{HEP Seminar} \when{2021}%
     % April 21, 2021
     % \item \textbf{R-Parity Violating SUSY is Hard to Find}
     %   \begin{itemizetighter}
-    %   \item University of Tennessee, \emph{Seminar}, Knoxville, TN \hfill2021%
+    %   \item University of Tennessee, \emph{Seminar}, Knoxville, TN \when{2021}%
     %   \end{itemizetighter}
 
-    \item University of Tennessee, Knoxville, TN -- \emph{Physics Colloquium} \hfill2020%
+    \item University of Tennessee, Knoxville, TN -- \emph{Physics Colloquium} \when{2020}%
     %  Nov 23, 2020
     % \item \textbf{What To Do When Nature Is Unnatural}
     %   \begin{itemizetighter}
-    %   \item University of Tennessee, \emph{Physics Colloquium}, Knoxville, TN \hfill2020%11 December 2018
+    %   \item University of Tennessee, \emph{Physics Colloquium}, Knoxville, TN \when{2020}%11 December 2018
     %   \end{itemizetighter}
 
-    \item Fermilab, Batavia, IL -- \emph{LPC Physics Forum} \hfill2020
+    \item Fermilab, Batavia, IL -- \emph{LPC Physics Forum} \when{2020}
     % 19 Nov 2020
     % \item \textbf{Displaced Vertex Searches at ATLAS}
     %   \begin{itemizetighter}
-    %   \item Fermilab, \emph{LPC Physics Forum}, Batavia, IL \hfill2020%11 December 2018
+    %   \item Fermilab, \emph{LPC Physics Forum}, Batavia, IL \when{2020}%11 December 2018
     %   \end{itemizetighter}
 
 
-    \item Lund University, Sweden -- \emph{Seminar} \hfill2020 % Mar 5, 2020
-    \item Michigan State University, East Lansing, MI -- \emph{Physics Colloquium} \hfill2019%5 February 2019
-    \item University of Illinois, Urbana-Champaign, IL -- \emph{Physics Colloquium} \hfill2018%25 October 2018
-    \item Fermilab, Batavia, IL --  \emph{Topic of the Week} \hfill2018%22 October 2018
-    \item SLAC, Palo Alto, CA -- \emph{Seminar} \hfill2018%18 October 2018
-    \item University of Oregon, Eugene, OR -- \emph{Seminar} \hfill2018%15 October 2018
-    \item University of Pennsylvania, Philadelphia, PA -- \emph{Seminar} \hfill2018%7 August 2018
-    \item Rutgers University, Piscataway, NJ -- \emph{Seminar} \hfill2018%6 August 2018
+    \item Lund University, Sweden -- \emph{Seminar} \when{2020} % Mar 5, 2020
+    \item Michigan State University, East Lansing, MI -- \emph{Physics Colloquium} \when{2019}%5 February 2019
+    \item University of Illinois, Urbana-Champaign, IL -- \emph{Physics Colloquium} \when{2018}%25 October 2018
+    \item Fermilab, Batavia, IL --  \emph{Topic of the Week} \when{2018}%22 October 2018
+    \item SLAC, Palo Alto, CA -- \emph{Seminar} \when{2018}%18 October 2018
+    \item University of Oregon, Eugene, OR -- \emph{Seminar} \when{2018}%15 October 2018
+    \item University of Pennsylvania, Philadelphia, PA -- \emph{Seminar} \when{2018}%7 August 2018
+    \item Rutgers University, Piscataway, NJ -- \emph{Seminar} \when{2018}%6 August 2018
 
     % \item \textbf{How SUSY Can Still Save The Day / The SUSY Swindle}
     %   \begin{itemizetighter}
-    %   \item Lund University, Sweden \hfill2020
-    %   \item Michigan State University, East Lansing, MI \hfill2019%5 February 2019
-    %   \item University of Illinois, Urbana-Champaign, IL \hfill2018%25 October 2018
-    %   \item Fermilab \emph{Topic of the Week}, Batavia, IL \hfill2018%22 October 2018
-    %   \item SLAC, Palo Alto, CA \hfill2018%18 October 2018
-    %   \item University of Oregon, Eugene, OR \hfill2018%15 October 2018
-    %   \item University of Pennsylvania, Philadelphia, PA \hfill2018%7 August 2018
-    %   \item Rutgers University, Piscataway, NJ \hfill2018%6 August 2018
+    %   \item Lund University, Sweden \when{2020}
+    %   \item Michigan State University, East Lansing, MI \when{2019}%5 February 2019
+    %   \item University of Illinois, Urbana-Champaign, IL \when{2018}%25 October 2018
+    %   \item Fermilab \emph{Topic of the Week}, Batavia, IL \when{2018}%22 October 2018
+    %   \item SLAC, Palo Alto, CA \when{2018}%18 October 2018
+    %   \item University of Oregon, Eugene, OR \when{2018}%15 October 2018
+    %   \item University of Pennsylvania, Philadelphia, PA \when{2018}%7 August 2018
+    %   \item Rutgers University, Piscataway, NJ \when{2018}%6 August 2018
     %   \end{itemizetighter}
 
 
-    \item Harvard University, Cambridge, MA -- \emph{LPPC Seminar} \hfill2018%11 October 2018
+    \item Harvard University, Cambridge, MA -- \emph{LPPC Seminar} \when{2018}%11 October 2018
     % \item \textbf{On the Higgs Branching Ratios}
     %   \begin{itemizetighter}
-    %   \item Harvard University - LPPC Seminar, Cambridge, MA\hfill2018%11 October 2018
+    %   \item Harvard University - LPPC Seminar, Cambridge, MA\when{2018}%11 October 2018
     %   \end{itemizetighter}
 
 
-    \item Oskar Klein Centre, Stockholm, Sweden -- \emph{HEP Seminar}\hfill2018%22 May 2018
-    \item Lawrence Berkeley National Laboratory, Berkeley, CA  -- \emph{RPM Seminar}\hfill2017%17 August 2017
+    \item Oskar Klein Centre, Stockholm, Sweden -- \emph{HEP Seminar}\when{2018}%22 May 2018
+    \item Lawrence Berkeley National Laboratory, Berkeley, CA  -- \emph{RPM Seminar}\when{2017}%17 August 2017
     % \item \textbf{Searches for Sneaky SUSY at the ATLAS Experiment \& A Toy Entropic Explanation for the Hierarchy Problem}
     %   \begin{itemizetighter}
-    %   \item Oskar Klein Centre, Stockholm, Sweden \hfill2018%22 May 2018
-    %   \item Lawrence Berkeley National Laboratory, Berkeley, CA \hfill2017%17 August 2017
+    %   \item Oskar Klein Centre, Stockholm, Sweden \when{2018}%22 May 2018
+    %   \item Lawrence Berkeley National Laboratory, Berkeley, CA \when{2017}%17 August 2017
     %   \end{itemizetighter}
 
-    \item Harvard University, Cambridge, MA -- \emph{LPPC Seminar}\hfill2015% 30 September 2015
+    \item Harvard University, Cambridge, MA -- \emph{LPPC Seminar}\when{2015}% 30 September 2015
   % \item \textbf{Searches for R-Parity Violating SUSY at the ATLAS Experiment}
   %   \begin{itemizetighter}
-  %   \item Harvard University - LPPC Seminar, Cambridge, MA\hfill2015% 30 September 2015
+  %   \item Harvard University - LPPC Seminar, Cambridge, MA\when{2015}% 30 September 2015
   %   \end{itemizetighter}
 
-    \item University of Adelaide, Australia -- \emph{CSSM Seminar}\hfill2014% 13 August 2014
-    \item University of Melbourne, Australia -- \emph{Seminar}\hfill2014% 10 July 2014
-    \item Institut de F\'isica d'Altes Energies (IFAE), Barcelona, Spain -- \emph{Seminar}\hfill2014%7 January 2014
+    \item University of Adelaide, Australia -- \emph{CSSM Seminar}\when{2014}% 13 August 2014
+    \item University of Melbourne, Australia -- \emph{Seminar}\when{2014}% 10 July 2014
+    \item Institut de F\'isica d'Altes Energies (IFAE), Barcelona, Spain -- \emph{Seminar}\when{2014}%7 January 2014
 
   % \item \textbf{A Search for B-Violating Supersymmetry in Multijet Signatures and Light-quark vs. Gluon Jet Tagging}
   %   \begin{itemizetighter}
-  %   \item University of Adelaide, Australia\hfill2014% 13 August 2014
-  %   \item University of Melbourne, Australia\hfill2014% 10 July 2014
-  %   \item Institut de F\'isica d'Altes Energies (IFAE), Barcelona, Spain\hfill2014%7 January 2014
-  %   \item Santa Cruz Institute of Particle Physics Seminar, Geneva, Switzerland\hfill2013% 12
+  %   \item University of Adelaide, Australia\when{2014}% 13 August 2014
+  %   \item University of Melbourne, Australia\when{2014}% 10 July 2014
+  %   \item Institut de F\'isica d'Altes Energies (IFAE), Barcelona, Spain\when{2014}%7 January 2014
+  %   \item Santa Cruz Institute of Particle Physics Seminar, Geneva, Switzerland\when{2013}% 12
   %   \end{itemizetighter}
 
-    \item 2nd International Spring School on Particle Physics and Philosophy -- \emph{Seminar}\hfill2014
+    \item 2nd International Spring School on Particle Physics and Philosophy -- \emph{Seminar}\when{2014}
   % \item \textbf{...But What If I Like Naturalness?}
   %   \begin{itemizetighter}
   %   \item 2nd International Spring School on Particle Physics and Philosophy
-  %   \item Wuppertal, Germany\hfill2014% 31 March 2014
+  %   \item Wuppertal, Germany\when{2014}% 31 March 2014
   %   \end{itemizetighter}
 
-    \item Santa Cruz Institute of Particle Physics Seminar, Geneva, Switzerland -- \emph{Seminar}\hfill2013% 12
+    \item Santa Cruz Institute of Particle Physics Seminar, Geneva, Switzerland -- \emph{Seminar}\when{2013}% 12
 
   % \item \textbf{RPV Stops at the LHC}
   %   \begin{itemizetighter}
   %   \item LPC Workshop on Exotic Top Partners
-  %   \item Fermi National Accelerator Laboratory, LHC Physics Center, Batavia, IL\hfill2013% 26 September 2013
+  %   \item Fermi National Accelerator Laboratory, LHC Physics Center, Batavia, IL\when{2013}% 26 September 2013
   %   \end{itemizetighter}
-
 
 
 % \end{itemize}
@@ -760,153 +626,153 @@
   % \begin{itemize}
   \begin{itemizetighter}
 
-  \item DPF, \textit{Energy Frontier Session}, Fermilab \hfill 2026 % July 23 2026
-  \item DPF, \textit{Outreach \& Engagement Session}, Fermilab \hfill 2026 % July 21 2026
+  \item DPF, \textit{Energy Frontier Session}, Fermilab \when{2026} % July 23 2026
+  \item DPF, \textit{Outreach \& Engagement Session}, Fermilab \when{2026} % July 21 2026
 
-  \item AI4MuC -- \textit{Overview Talk} \hfill 2026 % June 29, 2026
-
-
-  \item IDEC Conference, Columbia College of Chicago  \hfill 2026 %% Mar 2026
-   
-  \item Good $\nu$s, University of Pittsburgh -- \emph{Invited}  \hfill 2025 %% 29 Oct 2025
-
-  \item Physics At The Highest Energies With Colliders, Galileo Galilei Institute, Florence, Italy -- \emph{Invited}  \hfill 2025 %% 29 July 2025
+  \item AI4MuC -- \textit{Overview Talk} \when{2026} % June 29, 2026
 
 
-  \item LHCP2025, NTU, Taipei, Taiwan -- \emph{Invited}  \hfill 2025 %% 4 March 2025
+  \item IDEC Conference, Columbia College of Chicago  \when{2026} %% Mar 2026
+
+  \item Good $\nu$s, University of Pittsburgh -- \emph{Invited}  \when{2025} %% 29 Oct 2025
+
+  \item Physics At The Highest Energies With Colliders, Galileo Galilei Institute, Florence, Italy -- \emph{Invited}  \when{2025} %% 29 July 2025
 
 
-  \item Aspen Center for Physics -- \emph{Invited Muon Collider Overview Plenary}  \hfill 2025 %% 4 March 2025
+  \item LHCP2025, NTU, Taipei, Taiwan -- \emph{Invited}  \when{2025} %% 4 March 2025
 
-  \item Inaugural US Muon Collider Meeting, Fermilab -- \emph{Invited Experimental Overview Plenary}  \hfill 2024 %% 7 August 2024
 
-  \item Workshop on Long-Lived Particles, University of Tokyo, Tokyo, Japan -- \emph{o.b.o. CMS}  \hfill 2024 %% 4 July 2024
+  \item Aspen Center for Physics -- \emph{Invited Muon Collider Overview Plenary}  \when{2025} %% 4 March 2025
 
-  \item DPF/Pheno, Pittsburgh, PA \hfill 2024 %% May 2024
+  \item Inaugural US Muon Collider Meeting, Fermilab -- \emph{Invited Experimental Overview Plenary}  \when{2024} %% 7 August 2024
 
-  \item SESAPS2023, EKU, Richmond, KY -- \emph{Invited `Highlight' Talk}\hfill2023 % XX Nov 2023
+  \item Workshop on Long-Lived Particles, University of Tokyo, Tokyo, Japan -- \emph{o.b.o. CMS}  \when{2024} %% 4 July 2024
 
-  \item Fermilab Users Meeting -- \emph{Invited Plenary} \hfill2023
+  \item DPF/Pheno, Pittsburgh, PA \when{2024} %% May 2024
+
+  \item SESAPS2023, EKU, Richmond, KY -- \emph{Invited `Highlight' Talk}\when{2023} % XX Nov 2023
+
+  \item Fermilab Users Meeting -- \emph{Invited Plenary} \when{2023}
   % June 28, 2023
 
-  \item UCSB, Kavli Institute of Theoretical Physics, Muon Collider Workshop -- \emph{Invited Plenary} \hfill2023
+  \item UCSB, Kavli Institute of Theoretical Physics, Muon Collider Workshop -- \emph{Invited Plenary} \when{2023}
   % March 8, 2023
 
-  \item CMS Exotica Workshop -- \emph{Invited Plenary} \hfill2022% 11 Dec 2022
+  \item CMS Exotica Workshop -- \emph{Invited Plenary} \when{2022}% 11 Dec 2022
 
-  \item ML4Jets, Rutgers University, Piscataway, NJ \hfill 2022 % 1 Nov 2022
+  \item ML4Jets, Rutgers University, Piscataway, NJ \when{2022} % 1 Nov 2022
 
-  \item Snowmass Community Summer Study Workshop, Seattle, WA \hfill 2022 % 21 July 2022
+  \item Snowmass Community Summer Study Workshop, Seattle, WA \when{2022} % 21 July 2022
 
-  \item APS April Meeting, New York City, NY \hfill2022 % 10 April 2022
+  \item APS April Meeting, New York City, NY \when{2022} % 10 April 2022
 
-  \item CMS Exotica Workshop -- \emph{Invited Plenary} \hfill2021%24 Nov 2021
+  \item CMS Exotica Workshop -- \emph{Invited Plenary} \when{2021}%24 Nov 2021
 
-  \item SESAPS2021, FSU, Tallahassee, Fl -- \emph{Invited `Highlight' Talk}\hfill2021 % 19 Nov 2021
+  \item SESAPS2021, FSU, Tallahassee, Fl -- \emph{Invited `Highlight' Talk}\when{2021} % 19 Nov 2021
 
 
   % \item \textbf{ColliderScope: Reaching New Audiences with Electronic(s) Music}
   %   \begin{itemizetighter}
-  %   \item 18th International Particle Physics Outreach Group meeting, CERN \hfill2019%28 November 2019
-  %   \item International Conference on New Frontiers in Physics, Kolymbari, Crete \hfill2019%21 August 2019
-  %   \item APS Division of Particles and Fields Meeting, Boston, MA \hfill2019%30 July 2019
+  %   \item 18th International Particle Physics Outreach Group meeting, CERN \when{2019}%28 November 2019
+  %   \item International Conference on New Frontiers in Physics, Kolymbari, Crete \when{2019}%21 August 2019
+  %   \item APS Division of Particles and Fields Meeting, Boston, MA \when{2019}%30 July 2019
   %   \end{itemizetighter}
 
-  \item LHCP2021, Virtual -- \emph{Invited Plenary, o.b.o. ATLAS and CMS}\hfill2021
+  \item LHCP2021, Virtual -- \emph{Invited Plenary, o.b.o. ATLAS and CMS}\when{2021}
   % \item 6/9/2021 Neutral FIPs at the LHC and Beyond
 
-  \item APS April Meeting, Virtual -- \emph{Invited Plenary, o.b.o. ATLAS}\hfill2021
-  % \item \textbf{New Long-Lived Particle Results from the LHC} -- \emph{Plenary Talk} \hfill 2021 % 4/17/2021
+  \item APS April Meeting, Virtual -- \emph{Invited Plenary, o.b.o. ATLAS}\when{2021}
+  % \item \textbf{New Long-Lived Particle Results from the LHC} -- \emph{Plenary Talk} \when{2021} % 4/17/2021
   %   \begin{itemizetighter}
   %   \item APS April Meeting, Virtual
   %   \end{itemizetighter}
 
-  \item A Rainbow Of Dark Sectors, Aspen Center for Physics, Virtual -- \emph{Invited Plenary}\hfill2021
-  % \item \textbf{The Lifetime of the Long-Lived Particle Era at the LHC} -- \emph{Plenary Talk} \hfill 2021 %24 Mar 2021
+  \item A Rainbow Of Dark Sectors, Aspen Center for Physics, Virtual -- \emph{Invited Plenary}\when{2021}
+  % \item \textbf{The Lifetime of the Long-Lived Particle Era at the LHC} -- \emph{Plenary Talk} \when{2021} %24 Mar 2021
   %   \begin{itemizetighter}
   %   \item A Rainbow Of Dark Sectors, Aspen Center for Physics, Virtual
   %   \end{itemizetighter}
 
 
-  \item LHC Experiments Committee (LHCC) Meeting, CERN, Geneva -- \emph{Open Session} \hfill 2020
+  \item LHC Experiments Committee (LHCC) Meeting, CERN, Geneva -- \emph{Open Session} \when{2020}
     % Nov 18, 2020
     % \item \textbf{Updates from the ATLAS Experiment}
     %   \begin{itemizetighter}
-    %   \item LHC Experiments Committee (LHCC) Meeting Open Session, CERN, Geneva \hfill 2020
+    %   \item LHC Experiments Committee (LHCC) Meeting Open Session, CERN, Geneva \when{2020}
     %   \end{itemizetighter}
 
 
-  \item ICNFP, Kolymbari, Crete, Greece -- \emph{o.b.o. ATLAS}\hfill2019%21 August 2019
+  \item ICNFP, Kolymbari, Crete, Greece -- \emph{o.b.o. ATLAS}\when{2019}%21 August 2019
   % \item \textbf{Searches for Long-Lived Particles with the ATLAS Detector}
   %   \begin{itemizetighter}
   %   \item \emph{On behalf of the ATLAS Collaboration}
-  %   \item International Conference on New Frontiers in Physics, Kolymbari, Crete \hfill2019%21 August 2019
+  %   \item International Conference on New Frontiers in Physics, Kolymbari, Crete \when{2019}%21 August 2019
   %   \end{itemizetighter}
 
 
-  \item Higgs Cross-Section Working Group Meeting, CERN, Geneva -- \emph{Invited Plenary} \hfill2018%11 December 2018
+  \item Higgs Cross-Section Working Group Meeting, CERN, Geneva -- \emph{Invited Plenary} \when{2018}%11 December 2018
   % \item \textbf{Long-Lived Particles and the Higgs}
   %   \begin{itemizetighter}
-  %   \item Higgs Cross-Section Working Group Meeting, CERN, Geneva \hfill2018%11 December 2018
+  %   \item Higgs Cross-Section Working Group Meeting, CERN, Geneva \when{2018}%11 December 2018
   %   \end{itemizetighter}
 
-    \item USATLAS Workshop, Pittsburgh, PA -- \emph{Invited Plenary} \hfill2018%1 August 2018
+    \item USATLAS Workshop, Pittsburgh, PA -- \emph{Invited Plenary} \when{2018}%1 August 2018
     % \item \textbf{SUSY and Exotics Overview} -- ``\emph{Headliner}'' Talk
     %   \begin{itemizetighter}
-    %   \item USATLAS Workshop, University of Pittsburgh, Pittsburgh, PA \hfill2018%1 August 2018
+    %   \item USATLAS Workshop, University of Pittsburgh, Pittsburgh, PA \when{2018}%1 August 2018
     %   \end{itemizetighter}
 
     % \item \textbf{The SUSY Paradox \& A Toy Entropic Explanation for the Hierarchy Problem}
     %   \begin{itemizetighter}
-    %   \item Oskar Klein Centre, Stockholm, Sweden \hfill2018%22 May 2018
+    %   \item Oskar Klein Centre, Stockholm, Sweden \when{2018}%22 May 2018
     %   \end{itemizetighter}
 
-  \item SUSY2017, Mumbai, India -- \emph{o.b.o. ATLAS} \hfill2017%11 December 2017
+  \item SUSY2017, Mumbai, India -- \emph{o.b.o. ATLAS} \when{2017}%11 December 2017
   % \item \textbf{Searches for squarks and gluinos in scenarios with R-parity violating sparticle decays, or long- lived sparticles with ATLAS}
   %   \begin{itemizetighter}
   %   \item \emph{On behalf of the ATLAS Collaboration}
-  %    \item SUSY2017, Mumbai, India \hfill2017%11 December 2017
+  %    \item SUSY2017, Mumbai, India \when{2017}%11 December 2017
   %   \end{itemizetighter}
 
-  \item IHEP-T2E, Kuala Lumpur, Malaysia -- \emph{Plenary, o.b.o. ATLAS} \hfill2017%27 February 2017
+  \item IHEP-T2E, Kuala Lumpur, Malaysia -- \emph{Plenary, o.b.o. ATLAS} \when{2017}%27 February 2017
   % \item \textbf{SUSY Searches in the ATLAS Experiment} -- \emph{Plenary Talk}
   %   \begin{itemizetighter}
   %   \item \emph{On behalf of the ATLAS Collaboration}
-  %   \item IHEP-T2E, Kuala Lumpur, Malaysia \hfill2017%27 February 2017
+  %   \item IHEP-T2E, Kuala Lumpur, Malaysia \when{2017}%27 February 2017
   %   \end{itemizetighter}
 
-  \item SUSY2016, Melbourne, Victoria, Australia\hfill2016%3 July 2016
+  \item SUSY2016, Melbourne, Victoria, Australia\when{2016}%3 July 2016
   % \item \textbf{The Recursive Jigsaw Reconstruction Technique}
   %   \begin{itemizetighter}
-  %   \item SUSY2016, Melbourne, Victoria, Australia \hfill2016%3 July 2016
+  %   \item SUSY2016, Melbourne, Victoria, Australia \when{2016}%3 July 2016
   %   \end{itemizetighter}
 
   % \item \textbf{New Searches for Strongly-Produced SUSY at the ATLAS Experiment}
   %   \begin{itemizetighter}
-  %   \item CoEPP Annual Workshop, Torquay, Victoria, Australia\hfill2016%18 February 2016
+  %   \item CoEPP Annual Workshop, Torquay, Victoria, Australia\when{2016}%18 February 2016
   %   \end{itemizetighter}
 
-  \item SUSY2015, Lake Tahoe, CA\hfill2015% 24 August 2015
+  \item SUSY2015, Lake Tahoe, CA\when{2015}% 24 August 2015
   % \item \textbf{Applications of the Recursive Jigsaw Technique}
   %   \begin{itemizetighter}
-  %   \item SUSY2015, Lake Tahoe, CA\hfill2015% 24 August 2015
+  %   \item SUSY2015, Lake Tahoe, CA\when{2015}% 24 August 2015
   %   \end{itemizetighter}
 
-  \item Kruger2014, Kruger Gate, South Africa -- \emph{o.b.o. ATLAS} \hfill2014% 6 December 2014
+  \item Kruger2014, Kruger Gate, South Africa -- \emph{o.b.o. ATLAS} \when{2014}% 6 December 2014
   % \item \textbf{SUSY Searches in the ATLAS Experiment} -- \emph{Plenary Talk}
   %   \begin{itemizetighter}
   %   \item \emph{On behalf of the ATLAS Collaboration}
-  %   \item Kruger2014, Kruger Gate, South Africa\hfill2014% 6 December 2014
+  %   \item Kruger2014, Kruger Gate, South Africa\when{2014}% 6 December 2014
   %   \end{itemizetighter}
 
 
-  \item Fermilab, LPC Workshop on Exotic Top Partners, Batavia, IL -- \emph{Invited Plenary}\hfill2013% 26 September 2013
+  \item Fermilab, LPC Workshop on Exotic Top Partners, Batavia, IL -- \emph{Invited Plenary}\when{2013}% 26 September 2013
 
-  \item SUSY2012, Peking University, Beijing, China -- \emph{o.b.o. ATLAS} \hfill2012% 17 August 2012
+  \item SUSY2012, Peking University, Beijing, China -- \emph{o.b.o. ATLAS} \when{2012}% 17 August 2012
   % \item \textbf{Search for supersymmetry in resonant production and R-parity violating signatures with the ATLAS detector}
   %   \begin{itemizetighter}
   %   \item \emph{On behalf of the ATLAS Collaboration}
-  %   \item SUSY2012, Peking University, Beijing, China\hfill2012% 17 August 2012
+  %   \item SUSY2012, Peking University, Beijing, China\when{2012}% 17 August 2012
   %   \end{itemizetighter}
 
 % \end{itemize}
@@ -917,100 +783,97 @@
 
 \begin{itemizetighter}
 
-  \item \textit{USMCC 2026}, Stanford University, \emph{Co-chair (w/ M. Peskin), Program Committee} \hfill2026% Dec 2026
-  \item \textit{USMCC 2025}, University of Chicago, IL, \emph{Detector Design and Performance Session Organizer [of 3]} \hfill2025% Aug 2025
-  \item \textit{LHCP 2025}, Taipei, Taiwan, \emph{Poster Committee Member} \hfill2025% May 2025
-  \item \textit{CPAD 2024}, Knoxville, TN, \emph{Chair of Local Organizing Committee [of 5]} \hfill2024% Nov 2024
-  \item \textit{LHCP 2024}, Northeastern University, Boston, MA, \emph{Poster Committee Member} \hfill2024% May 2024
+  \item \textit{USMCC 2026}, Stanford University, \emph{Co-chair (w/ M. Peskin), Program Committee} \when{2026}% Dec 2026
+  \item \textit{USMCC 2025}, University of Chicago, IL, \emph{Detector Design and Performance Session Organizer [of 3]} \when{2025}% Aug 2025
+  \item \textit{LHCP 2025}, Taipei, Taiwan, \emph{Poster Committee Member} \when{2025}% May 2025
+  \item \textit{CPAD 2024}, Knoxville, TN, \emph{Chair of Local Organizing Committee [of 5]} \when{2024}% Nov 2024
+  \item \textit{LHCP 2024}, Northeastern University, Boston, MA, \emph{Poster Committee Member} \when{2024}% May 2024
 
-  \item \textit{The Future of High Energy Physics}, Aspen Center for Physics, \emph{Conference Organizer [of 4]} \hfill2024% Mar 2024
-  \item \textit{PITT PACC Muon Collider Physics Benchmark Workshop}, Pittsburgh, PA, \emph{Invited Closing Remarks} \hfill2023% Nov 2023
-  \item \textit{ML4Jets}, Rutgers University, \emph{Session Chair} \hfill2022% Oct 2022
-  \item \textit{APS April Meeting}, New York, NY, \emph{Session Chair} \hfill2022% April 10 2022
-  \item \textit{ATLAS SUSY and Exotics Workshop}, Virtual \hfill2020% September 2020
-  \item \textit{ATLAS Reaching New Heights Workshop}, CERN \hfill 2019%December 2019
-  \item \textit{ATLAS SUSY Workshop}, Lecce, Italy \hfill 2019%September 2019
-  \item \textit{APS Division of Particles and Fields Meeting}, Northeastern University \hfill 2019%29 July - 2 August 2019
-  \item \textit{ATLAS SUSY Workshop}, Stockholm, Sweden \hfill 2018%23-25 May 2018
-  \item \textit{ATLAS SUSY and Exotics Workshop}, Bucharest, Romania \hfill 2017%8-12 May 2017
-  \item \textit{Recursive Jigsaw Workshop}, Harvard University \hfill 2015%21 September 2015
-  \item \textit{Workshop on LHC Searches}, LBNL \hfill2014% 30 January 2014
+  \item \textit{The Future of High Energy Physics}, Aspen Center for Physics, \emph{Conference Organizer [of 4]} \when{2024}% Mar 2024
+  \item \textit{PITT PACC Muon Collider Physics Benchmark Workshop}, Pittsburgh, PA, \emph{Invited Closing Remarks} \when{2023}% Nov 2023
+  \item \textit{ML4Jets}, Rutgers University, \emph{Session Chair} \when{2022}% Oct 2022
+  \item \textit{APS April Meeting}, New York, NY, \emph{Session Chair} \when{2022}% April 10 2022
+  \item \textit{ATLAS SUSY and Exotics Workshop}, Virtual \when{2020}% September 2020
+  \item \textit{ATLAS Reaching New Heights Workshop}, CERN \when{2019}%December 2019
+  \item \textit{ATLAS SUSY Workshop}, Lecce, Italy \when{2019}%September 2019
+  \item \textit{APS Division of Particles and Fields Meeting}, Northeastern University \when{2019}%29 July - 2 August 2019
+  \item \textit{ATLAS SUSY Workshop}, Stockholm, Sweden \when{2018}%23-25 May 2018
+  \item \textit{ATLAS SUSY and Exotics Workshop}, Bucharest, Romania \when{2017}%8-12 May 2017
+  \item \textit{Recursive Jigsaw Workshop}, Harvard University \when{2015}%21 September 2015
+  \item \textit{Workshop on LHC Searches}, LBNL \when{2014}% 30 January 2014
 
   \end{itemizetighter}
 
 % \clearpage
 
 
-
 \section*{Teaching}
 
   \begin{itemizetighter}
-    \item Physics of Cosmic Rays \emph{Seminar \& Design/Build Course w/ UT Architecture \& Design} (PHYS 494) \hfill \makebox[3.5em][l]{2025}
-    \item Classical Mechanics I \textit{\&} II (PHYS 311/312) \hfill \makebox[3.5em][l]{2021-24}
-    \item UTK HEP/Astro Seminar    \hfill \makebox[3.5em][l]{2022}
-    \item Graduate Research Participation Seminar  \hfill \makebox[3.5em][l]{2021}
+    \item Physics of Cosmic Rays \emph{Seminar \& Design/Build Course w/ UT Architecture \& Design} (PHYS 494) \when{2025}
+    \item Classical Mechanics I \textit{\&} II (PHYS 311/312) \when{2021-24}
+    \item UTK HEP/Astro Seminar    \when{2022}
+    \item Graduate Research Participation Seminar  \when{2021}
   \end{itemizetighter}
 
 
-
-
-  \ifthenelse{\boolean{internal}}{
+  \internalonly{
 
     \section*{Current Student \textit{\&} Postdoc Mentorship}
 
     \begin{itemizetighter}
-      \item Olivia Clark [undergrad] \hfill \makebox[3.5em][l]{2025--}
-      \item Micah Hillman [undergrad] \hfill \makebox[3.5em][l]{2025--}
-      \item \hfill \emph{UTK EUReCA 2nd Place Presenter Award}\hspace{1.2em}
+      \item Olivia Clark [undergrad] \when{2025--}
+      \item Micah Hillman [undergrad] \when{2025--}
+      \item \rightnote{UTK EUReCA 2nd Place Presenter Award}
 
-      \item Allie Dabney [undergrad] \hfill \makebox[3.5em][l]{2025--}
-      \item Shivam [Ph.D.] \hfill \makebox[3.5em][l]{2024--}
-      \item Caroline Riggall [Ph.D.] \hfill \makebox[3.5em][l]{2024--}
-      \item Cordney Nash [undergrad] \hfill \makebox[3.5em][l]{2024--}
-      \item \hfill \emph{UTK `Volunteer of Distinction'}\hspace{1.2em}
+      \item Allie Dabney [undergrad] \when{2025--}
+      \item Shivam [Ph.D.] \when{2024--}
+      \item Caroline Riggall [Ph.D.] \when{2024--}
+      \item Cordney Nash [undergrad] \when{2024--}
+      \item \rightnote{UTK `Volunteer of Distinction'}
 
-      \item Colby Thompson [Ph.D.] \hfill \makebox[3.5em][l]{2023--}
-      \item Adam Vendrasco [Ph.D.] \hfill \makebox[3.5em][l]{2022--}
-      \item John Lawless [Ph.D.] \hfill \makebox[3.5em][l]{2022--}
-      \item \hfill \emph{Stelson Fellowship for Outstanding Beginning Research}\hspace{1.2em}
+      \item Colby Thompson [Ph.D.] \when{2023--}
+      \item Adam Vendrasco [Ph.D.] \when{2022--}
+      \item John Lawless [Ph.D.] \when{2022--}
+      \item \rightnote{Stelson Fellowship for Outstanding Beginning Research}
 
-      \item Emery Nibigira [Postdoc] \hfill \makebox[3.5em][l]{2022--}
-      \item \hfill \emph{Fermilab LPC Distinguished Researcher}\hspace{1.2em} 
+      \item Emery Nibigira [Postdoc] \when{2022--}
+      \item \rightnote{Fermilab LPC Distinguished Researcher}
 
-      \item \hfill \emph{Lindau Nobel Laureate Meeting Selected Participant}\hspace{1.2em}
+      \item \rightnote{Lindau Nobel Laureate Meeting Selected Participant}
 
     \end{itemizetighter}
-    
-    
+
+
     \section*{Student Thesis Committee Membership}
-    
+
     \begin{itemizetighter}
-      \item Colby Thompson [Ph.D.], \emph{chair} \hfill \makebox[3.5em][l]{2025--}
-      \item Raghav Chari [undergrad, College Honors] \hfill \makebox[3.5em][l]{2025}
-      \item John Lawless [Ph.D.], \emph{chair} \hfill \makebox[3.5em][l]{2024--}
-      \item Brandi Skipworth [Ph.D.] \hfill \makebox[3.5em][l]{2024--}
-      \item Christal Martin [Ph.D.] \hfill \makebox[3.5em][l]{2024--}
-      \item Ewa Glimos [Ph.D.] \hfill \makebox[3.5em][l]{2024--}
-      \item Taylor Sussmane [undergrad, Honors], \emph{chair} \hfill \makebox[3.5em][l]{2024}
-      \item John Melhorn [undergrad, Honors] \hfill \makebox[3.5em][l]{2024}
-      \item Luke Carpenter [undergrad, Honors] \hfill \makebox[3.5em][l]{2024}
-      \item Rebecca Godri [Ph.D.] \hfill \makebox[3.5em][l]{2023--}
-      \item Daniel Ally [Ph.D.] \hfill \makebox[3.5em][l]{2022--}
-      \item Jesse Harris [Ph.D.] \hfill \makebox[3.5em][l]{2022--}
-      \item Satyajit Roy [Ph.D.] \hfill \makebox[3.5em][l]{2021--2024}
-      \item Austin Schmier [Ph.D.] \hfill \makebox[3.5em][l]{2021--2024}
-      \item Himal Acharya [Ph.D.] \hfill \makebox[3.5em][l]{2021--2021}
-      \item External Ph.D. Dissertation Review for Yale University \hfill \makebox[3.5em][l]{2021}
-      \item External M.S. Thesis Review for University of Adelaide \hfill \makebox[3.5em][l]{2021}
+      \item Colby Thompson [Ph.D.], \emph{chair} \when{2025--}
+      \item Raghav Chari [undergrad, College Honors] \when{2025}
+      \item John Lawless [Ph.D.], \emph{chair} \when{2024--}
+      \item Brandi Skipworth [Ph.D.] \when{2024--}
+      \item Christal Martin [Ph.D.] \when{2024--}
+      \item Ewa Glimos [Ph.D.] \when{2024--}
+      \item Taylor Sussmane [undergrad, Honors], \emph{chair} \when{2024}
+      \item John Melhorn [undergrad, Honors] \when{2024}
+      \item Luke Carpenter [undergrad, Honors] \when{2024}
+      \item Rebecca Godri [Ph.D.] \when{2023--}
+      \item Daniel Ally [Ph.D.] \when{2022--}
+      \item Jesse Harris [Ph.D.] \when{2022--}
+      \item Satyajit Roy [Ph.D.] \when{2021--2024}
+      \item Austin Schmier [Ph.D.] \when{2021--2024}
+      \item Himal Acharya [Ph.D.] \when{2021--2021}
+      \item External Ph.D. Dissertation Review for Yale University \when{2021}
+      \item External M.S. Thesis Review for University of Adelaide \when{2021}
     \end{itemizetighter}
-  
+
   }
-  
+
   \section*{Past Student \textit{\&} Postdoc Mentorship}
-  
-  
+
+
   \textit{n.b. Square brackets denote initial position of mentorship relationship. Current position in italics.}
-  
+
     \begin{itemizetighter}
       \item Dr. Alexander Tuna [Postdoc, UTK] \hfill \emph{Research Staff, UCSD}
       \item Dr. Ankush Kanuganti [Postdoc, UTK] \hfill \emph{Postdoc, BNL}
@@ -1042,19 +905,16 @@
       \item Prof. Emma Alexander [Undergrad, Yale] \hfill \emph{Asst. Professor, Northwestern University}
       \item Dr. Ariel Ekblaw [Undergrad, Yale] \hfill \emph{Founder of the MIT Space Exploration Initiative, CEO of Aurelia Institute}
     \end{itemizetighter}
-  
-  
-  
-  
+
 
 \section*{Selected Outreach Activities}
 
   \begin{itemize}
 
-    \item {\bf \href{https://cosmicrayn.utk.edu}{Cosmic Rayn: Cosmic Ray Educational Experience}} w/ UTK Architecture \textit{\&} Design \hfill \makebox[3.5em][l]{2024--26}
+    \item \textbf{\href{https://cosmicrayn.utk.edu}{Cosmic Rayn: Cosmic Ray Educational Experience}} w/ UTK Architecture \textit{\&} Design \when{2024--26}
 
-    \item {\bf Quantum Canvases: Physics, the Arts, and the Humanities} \hfill \makebox[3.5em][l]{2023}
-    
+    \item \textbf{Quantum Canvases: Physics, the Arts, and the Humanities} \when{2023}
+
       \begin{itemizetighter}
       \item Lead organizer of a series of events in downtown Knoxville on the intersection of physics, the arts, and the humanities in collaboration with UTK Physics \textit{\&} Astronomy, CERN, and the UT Humanities Center.
       \item Electronic music event (``Harmonic Motion: Physics x Electronic Music'')
@@ -1064,69 +924,68 @@
       \end{itemizetighter}
 
 
-
-    \item {\bf Higgs Tenth Anniversary Celebration} \hfill \makebox[3.5em][l]{2022}
+    \item \textbf{Higgs Tenth Anniversary Celebration} \when{2022}
 
       \begin{itemizetighter}
       \item Primary organizer for a documentary screening of \emph{Particle Fever} and open panel session for the tenth anniversary of the discovery of the Higgs Boson. Held at Central Cinema in Knoxville, TN.
       \end{itemizetighter}
 
 
-    \item {\bf STEAM Trailer Design Project} \hfill \makebox[3.5em][l]{2021--22}
+    \item \textbf{STEAM Trailer Design Project} \when{2021--22}
 
       \begin{itemizetighter}
       \item Worked with the UTK College of Architecture \textit{\&} Design to design and construct an educational experience for local middle schoolers with a focus on the physics of sound and visualization.
       \end{itemizetighter}
 
-    \item {\bf Keynote presentation at event for Eureka Science Museum}, Grand Junction, CO \hfill \makebox[3.5em][l]{2021}
+    \item \textbf{Keynote presentation at event for Eureka Science Museum}, Grand Junction, CO \when{2021}
 
 
-    \item \href{http://www.cern.ch/ColliderScope}{\bf ColliderScope -- Particle-Physics-Inspired Electronic Music Project} \hfill \makebox[3.5em][l]{2019--}
+    \item \href{http://www.cern.ch/ColliderScope}{\textbf{ColliderScope -- Particle-Physics-Inspired Electronic Music Project}} \when{2019--}
 
       \begin{itemizetighter}
       \item Music with sound waves that show particle physics images in Lissajous figures
       \item Live performances:
-      \item \hspace{2em} Luck Reunion (at Willie Nelson's ranch), Austin, TX (\emph{w/ Micah Nelson, Daniel Lanois}) \hfill \makebox[3.5em][l]{2026}
-      \item \hspace{2em} Fly By Night, Knoxville, TN (\emph{w/ signal:noise; VJ Set}) \hfill \makebox[3.5em][l]{2026}
-      \item \hspace{2em} Fly By Night, Knoxville, TN (\emph{w/ signal:noise; VJ Set}) \hfill \makebox[3.5em][l]{2025}
-      \item \hspace{2em} Fly By Night, Knoxville, TN (\emph{w/ signal:noise; VJ Set}) \hfill \makebox[3.5em][l]{2025}
-      \item \hspace{2em} Scruffy City Hall, Knoxville, TN (\emph{w/ Harmonic Motion}) \hfill \makebox[3.5em][l]{2025}
-      \item \hspace{2em} Scruffy City Hall, Knoxville, TN (\emph{w/ Harmonic Motion}) \hfill \makebox[3.5em][l]{2024}
-      \item \hspace{2em} Old City Performing Arts Center, Knoxville, TN (\emph{w/ Harmonic Motion}) \hfill \makebox[3.5em][l]{2023}
-      \item \hspace{2em} Blue Moon Tavern, Seattle, WA (\emph{w/ Snowmass summer meeting}) \hfill \makebox[3.5em][l]{2022}
-      \item \hspace{2em} Roskilde Festival, Denmark \hfill \makebox[3.5em][l]{2022}
-      \item \hspace{2em} Cross Club, Prague, YouTube, Live from the CERN Control Centre (\emph{w/ ICHEP2020}) \hfill \makebox[3.5em][l]{2020}
-      \item \hspace{2em} Lund, Sweden \hfill \makebox[3.5em][l]{2020}
-      \item \hspace{2em} Aeronaut Brewing, Somerville, MA \hfill \makebox[3.5em][l]{2019}
-      \item \hspace{2em} ATLAS Experiment, Geneva, Switzerland \hfill \makebox[3.5em][l]{2019}
-      \item \hspace{2em} CERN Open Days, Geneva, Switzerland \hfill \makebox[3.5em][l]{2019}
-      \item \hspace{2em} Pohoda Music Festival, Tren\v{c}\'{i}n, Slovakia \hfill \makebox[3.5em][l]{2019}
+      \item \hspace{2em} Luck Reunion (at Willie Nelson's ranch), Austin, TX (\emph{w/ Micah Nelson, Daniel Lanois}) \when{2026}
+      \item \hspace{2em} Fly By Night, Knoxville, TN (\emph{w/ signal:noise; VJ Set}) \when{2026}
+      \item \hspace{2em} Fly By Night, Knoxville, TN (\emph{w/ signal:noise; VJ Set}) \when{2025}
+      \item \hspace{2em} Fly By Night, Knoxville, TN (\emph{w/ signal:noise; VJ Set}) \when{2025}
+      \item \hspace{2em} Scruffy City Hall, Knoxville, TN (\emph{w/ Harmonic Motion}) \when{2025}
+      \item \hspace{2em} Scruffy City Hall, Knoxville, TN (\emph{w/ Harmonic Motion}) \when{2024}
+      \item \hspace{2em} Old City Performing Arts Center, Knoxville, TN (\emph{w/ Harmonic Motion}) \when{2023}
+      \item \hspace{2em} Blue Moon Tavern, Seattle, WA (\emph{w/ Snowmass summer meeting}) \when{2022}
+      \item \hspace{2em} Roskilde Festival, Denmark \when{2022}
+      \item \hspace{2em} Cross Club, Prague, YouTube, Live from the CERN Control Centre (\emph{w/ ICHEP2020}) \when{2020}
+      \item \hspace{2em} Lund, Sweden \when{2020}
+      \item \hspace{2em} Aeronaut Brewing, Somerville, MA \when{2019}
+      \item \hspace{2em} ATLAS Experiment, Geneva, Switzerland \when{2019}
+      \item \hspace{2em} CERN Open Days, Geneva, Switzerland \when{2019}
+      \item \hspace{2em} Pohoda Music Festival, Tren\v{c}\'{i}n, Slovakia \when{2019}
       \item Commissioned Compositions:
 
-      \item \hspace{2em} Intro Videos for the CERN Science Gateway Educational Program \hfill \makebox[3.5em][l]{2023}
+      \item \hspace{2em} Intro Videos for the CERN Science Gateway Educational Program \when{2023}
 
-      \item \hspace{2em} Intro Videos for CERN Music Festival Program \hfill \makebox[3.5em][l]{2019}
+      \item \hspace{2em} Intro Videos for CERN Music Festival Program \when{2019}
 
       \item Presented at multiple international and national conferences
-    %   \item 18th International Particle Physics Outreach Group meeting, CERN \hfill \makebox[3.5em][l]{2019%28 November 2019}
-    %   \item International Conference on New Frontiers in Physics, Kolymbari, Crete \hfill \makebox[3.5em][l]{2019%21 August 2019}
-    %   \item APS Division of Particles and Fields Meeting, Boston, MA \hfill \makebox[3.5em][l]{2019%30 July 2019}
+    %   \item 18th International Particle Physics Outreach Group meeting, CERN \when{2019%28 November 2019}
+    %   \item International Conference on New Frontiers in Physics, Kolymbari, Crete \when{2019%21 August 2019}
+    %   \item APS Division of Particles and Fields Meeting, Boston, MA \when{2019%30 July 2019}
       \end{itemizetighter}
 
 
-    \item {\bf Presentations to Grade School Students}
+    \item \textbf{Presentations to Grade School Students}
     \begin{itemizetighter}
-    \item L\&N STEM Academy, Knoxville, TN \hfill \makebox[3.5em][l]{2023}
-    \item Tel Aviv University -- Future Scientists CERN Tour \hfill \makebox[3.5em][l]{2017--19}
-    \item Five presentations to NJ and NY schools \hfill \makebox[3.5em][l]{2011--16}
+    \item L\&N STEM Academy, Knoxville, TN \when{2023}
+    \item Tel Aviv University -- Future Scientists CERN Tour \when{2017--19}
+    \item Five presentations to NJ and NY schools \when{2011--16}
     \end{itemizetighter}
 
-    \item {\bf Harvard NSW Activities at CERN} - \emph{Video} (\href{https://youtu.be/VHrJAkNsMhM}{YouTube})
+    \item \textbf{Harvard NSW Activities at CERN} - \emph{Video} (\href{https://youtu.be/VHrJAkNsMhM}{YouTube})
     \begin{itemizetighter}
-    \item Fully produced video for recruitment \hfill \makebox[3.5em][l]{2018}
+    \item Fully produced video for recruitment \when{2018}
     \end{itemizetighter}
 
-  \item \href{http://www.cern.ch/inparticular}{\bf In Particular} - \emph{Podcast}\hfill \makebox[3.5em][l]{2015--16}
+  \item \href{http://www.cern.ch/inparticular}{\textbf{In Particular}} - \emph{Podcast}\when{2015--16}
 
     \begin{itemizetighter}
     \item Video, audio, and original music production
@@ -1137,10 +996,9 @@
     \end{itemizetighter}
 
 
-
-  \item {\bf Visiting Scholar, Dharma Drum Mountain, Taiwan}
+  \item \textbf{Visiting Scholar, Dharma Drum Mountain, Taiwan}
     \begin{itemizetighter}
-    \item Several weeks of conversations with monastery's monks and academics \hfill \makebox[3.5em][l]{2014}
+    \item Several weeks of conversations with monastery's monks and academics \when{2014}
     \end{itemizetighter}
 
 
@@ -1151,38 +1009,38 @@
 
       \begin{itemizetighter}
 
-      \item \href{https://physics.utk.edu/tova-holmes-and-larry-lee-selected-as-fermilab-distinguished-researchers/}{UTK Physics -- Tova Holmes And Larry Lee Selected As Fermilab Distinguished Researchers}\hfill 2026
-      
-      \item \href{https://news.utk.edu/2025/02/12/university-of-tennessee-physicist-named-cottrell-scholar/}{UTK News -- University of Tennessee Physicist Named Cottrell Scholar}\hfill 2025
+      \item \href{https://physics.utk.edu/tova-holmes-and-larry-lee-selected-as-fermilab-distinguished-researchers/}{UTK Physics -- Tova Holmes And Larry Lee Selected As Fermilab Distinguished Researchers}\when{2026}
 
-      \item \emph{Science} -- L.~Lee, C.~Bell, {\bf \href{https://www.science.org/toc/science/383/6690}{Cover of Issue 383 6690}}  \hfill 2024
+      \item \href{https://news.utk.edu/2025/02/12/university-of-tennessee-physicist-named-cottrell-scholar/}{UTK News -- University of Tennessee Physicist Named Cottrell Scholar}\when{2025}
+
+      \item \emph{Science} -- L.~Lee, C.~Bell, \textbf{\href{https://www.science.org/toc/science/383/6690}{Cover of Issue 383 6690}}  \when{2024}
 
 
       \begin{itemizetightrightpad}
-        \item \it Muon collider simulation work and renderings made in Unreal Engine were featured on the cover and in the cover article in the issue from March 29, 2024.
+        \item \emph{Muon collider simulation work and renderings made in Unreal Engine were featured on the cover and in the cover article in the issue from March 29, 2024.}
       \end{itemizetightrightpad}
 
-      \item \href{https://engage.aps.org/dpb/resources/newsletters/24-25-newsletter/f10-article}{APS DPB Annual Newsletter -- The Muon Collider: A Modern Machine for a Modern World}\hfill 2024
-      \item \href{https://cerncourier.com/a/a-new-generation-a-new-vision/}{CERN Courier -- A New Generation, A New Vision} \hfill 2024
-      \item \href{https://physics.utk.edu/the-particle-detectorists/}{UTK Physics -- The (Particle) Detectorists} \hfill 2024
-      \item \href{https://physics.utk.edu/four-ut-physics-students-win-doe-scgsr-support/}{UTK Physics -- NSF GRFP Awardee} \hfill 2024
-      \item \href{https://physics.utk.edu/the-art-of-muon-collisions/}{UTK Physics -- The Art of Muon Collisions} \hfill 2024
-      \item Interview for article for MIT Tech Review \hfill 2023
-      \item Interview for article for Symmetry Magazine on CERN music festival program \hfill 2023
-      \item Interview with Sparks Magazine on Asian Americans in STEM\hfill 2023
-      \item \href{https://physics.utk.edu/in-my-own-words-undergraduate-taylor-sussmane/}{UTK Physics -- In My Own Words: Undergraduate Taylor Sussmane} \hfill 2023
-      \item \href{https://physics.utk.edu/challenging-the-standard-model-lawrence-lee-wins-nsf-career-award/}{UTK Physics -- Challenging The Standard Model: Lawrence Lee Wins NSF CAREER Award}\hfill 2023
-      \item \href{https://physics.utk.edu/the-art-of-science/}{UTK Physics -- The Art of Science} \hfill 2023
-      \item \href{https://physics.utk.edu/the-yeti-returns/}{UTK Physics -- The YETI Returns} \hfill 2023
-      \item Interview with Danish podcast TechTopia \hfill 2022
-      \item \textit{ColliderScope} featured in \href{https://www.symmetrymagazine.org/article/lhc-music-through-the-colliderscope}{Symmetry Magazine} \hfill 2019
-      \item Interview for article for Symmetry Magazine on naturalness \hfill 2019
-      \item CERN Courier -- ATLAS Pushes the Limits on Supersymmetry \hfill 2019
+      \item \href{https://engage.aps.org/dpb/resources/newsletters/24-25-newsletter/f10-article}{APS DPB Annual Newsletter -- The Muon Collider: A Modern Machine for a Modern World}\when{2024}
+      \item \href{https://cerncourier.com/a/a-new-generation-a-new-vision/}{CERN Courier -- A New Generation, A New Vision} \when{2024}
+      \item \href{https://physics.utk.edu/the-particle-detectorists/}{UTK Physics -- The (Particle) Detectorists} \when{2024}
+      \item \href{https://physics.utk.edu/four-ut-physics-students-win-doe-scgsr-support/}{UTK Physics -- NSF GRFP Awardee} \when{2024}
+      \item \href{https://physics.utk.edu/the-art-of-muon-collisions/}{UTK Physics -- The Art of Muon Collisions} \when{2024}
+      \item Interview for article for MIT Tech Review \when{2023}
+      \item Interview for article for Symmetry Magazine on CERN music festival program \when{2023}
+      \item Interview with Sparks Magazine on Asian Americans in STEM\when{2023}
+      \item \href{https://physics.utk.edu/in-my-own-words-undergraduate-taylor-sussmane/}{UTK Physics -- In My Own Words: Undergraduate Taylor Sussmane} \when{2023}
+      \item \href{https://physics.utk.edu/challenging-the-standard-model-lawrence-lee-wins-nsf-career-award/}{UTK Physics -- Challenging The Standard Model: Lawrence Lee Wins NSF CAREER Award}\when{2023}
+      \item \href{https://physics.utk.edu/the-art-of-science/}{UTK Physics -- The Art of Science} \when{2023}
+      \item \href{https://physics.utk.edu/the-yeti-returns/}{UTK Physics -- The YETI Returns} \when{2023}
+      \item Interview with Danish podcast TechTopia \when{2022}
+      \item \textit{ColliderScope} featured in \href{https://www.symmetrymagazine.org/article/lhc-music-through-the-colliderscope}{Symmetry Magazine} \when{2019}
+      \item Interview for article for Symmetry Magazine on naturalness \when{2019}
+      \item CERN Courier -- ATLAS Pushes the Limits on Supersymmetry \when{2019}
 
-      \item Interview for Swedish-language podcast \textit{Professor Magenta} about science and art \hfill 2016
-      \item Public screening of film Particle Fever w/ panel Q\textit{\&}A\hfill 2014
+      \item Interview for Swedish-language podcast \textit{Professor Magenta} about science and art \when{2016}
+      \item Public screening of film Particle Fever w/ panel Q\textit{\&}A\when{2014}
 
-      
+
       \end{itemizetighter}
 
 
@@ -1190,47 +1048,47 @@
 
   \begin{itemizetighter}
 
-    \item UTK Academy for Global Engagement - Mentor \hfill \makebox[3.5em][l]{2026--27}
-    
-    \item CAS Climate, Culture, and Community Committee \hfill \makebox[3.5em][l]{2025--}
-    
-    \item Faculty Search Committee - Particle Theory \hfill \makebox[3.5em][l]{2025--26}
-    \item Faculty Search Committee - Lecturer \hfill \makebox[3.5em][l]{2025--26}
-    
-    \item ORIED Launch Pad Panel on Prestigious Fellowships \& Awards \hfill \makebox[3.5em][l]{2025}
-    \item University NSF CAREER Workshop Panel \hfill \makebox[3.5em][l]{2025}
-    \item Faculty Search Committee - Nuclear Theory \hfill \makebox[3.5em][l]{2024--25}
-    
-    \item Coordinator of Department Web Services \hfill \makebox[3.5em][l]{2024--}
+    \item UTK Academy for Global Engagement - Mentor \when{2026--27}
 
-    \item 4 UTK Senior Thesis Committees \hfill \makebox[3.5em][l]{2024--}
+    \item CAS Climate, Culture, and Community Committee \when{2025--}
 
-    \item University NSF CAREER Workshop Panel \hfill \makebox[3.5em][l]{2024}
+    \item Faculty Search Committee - Particle Theory \when{2025--26}
+    \item Faculty Search Committee - Lecturer \when{2025--26}
 
-    \item Provost Junior Faculty Fellows (\emph{UTK}) \hfill \makebox[3.5em][l]{2023--25}
-    
-    \item Graduate Recruitment Committee  \hfill \makebox[3.5em][l]{2023--}
-    
-    \item SPS Faculty Advisor  \hfill \makebox[3.5em][l]{2023--}
-    
-    \item Assessment Committee  \hfill \makebox[3.5em][l]{2023--24}
+    \item ORIED Launch Pad Panel on Prestigious Fellowships \& Awards \when{2025}
+    \item University NSF CAREER Workshop Panel \when{2025}
+    \item Faculty Search Committee - Nuclear Theory \when{2024--25}
 
-    \item Graduate Advising Committee \hfill \makebox[3.5em][l]{2022--}
+    \item Coordinator of Department Web Services \when{2024--}
 
-    \item Planning Committee \hfill \makebox[3.5em][l]{2022--24}
+    \item 4 UTK Senior Thesis Committees \when{2024--}
 
-    \item Faculty Search Committee - Medium Energy Nuclear Experiment \hfill \makebox[3.5em][l]{2022--23}
-    
-    \item Qualifying Exam Committee \hfill\makebox[3.5em][l]{2022--23, 24--25}
+    \item University NSF CAREER Workshop Panel \when{2024}
 
-    \ifthenelse{\boolean{internal}}{}{
-      \item 9 UTK PhD Thesis Committees \hfill \makebox[3.5em][l]{2021--}
-      
+    \item Provost Junior Faculty Fellows (\emph{UTK}) \when{2023--25}
+
+    \item Graduate Recruitment Committee  \when{2023--}
+
+    \item SPS Faculty Advisor  \when{2023--}
+
+    \item Assessment Committee  \when{2023--24}
+
+    \item Graduate Advising Committee \when{2022--}
+
+    \item Planning Committee \when{2022--24}
+
+    \item Faculty Search Committee - Medium Energy Nuclear Experiment \when{2022--23}
+
+    \item Qualifying Exam Committee \when{2022--23, 24--25}
+
+    \externalonly{
+      \item 9 UTK PhD Thesis Committees \when{2021--}
+
     }
 
-    \item Community Connections Committee (\emph{Chair}) \hfill \makebox[3.5em][l]{2021--23}
-    
-    \item Department Head Search Committee  (\emph{UTK College of Arts \& Sciences}) \hfill  \makebox[3.5em][l]{2021--22}
+    \item Community Connections Committee (\emph{Chair}) \when{2021--23}
+
+    \item Department Head Search Committee  (\emph{UTK College of Arts \& Sciences}) \when{2021--22}
   \end{itemizetighter}
 
 
@@ -1292,10 +1150,10 @@
 %   \begin{itemizetight}
 %     \item Yale University
 %     \begin{itemizetight}
-%       \item \emph{Fundamentals of Physics}, lecturing assistant for Prof. P. Tipton \hfill2011
-%       \item \emph{Physics for the Life Sciences}, lecturing assistant for Prof. S. Mochrie \hfill2010
-%       \item \emph{Modern Physical Measurement}, assistant for Prof. J. Harris \hfill2010
-%       \item \emph{General Physics Laboratory}, assistant for Prof. K. Baker \hfill2009
+%       \item \emph{Fundamentals of Physics}, lecturing assistant for Prof. P. Tipton \when{2011}
+%       \item \emph{Physics for the Life Sciences}, lecturing assistant for Prof. S. Mochrie \when{2010}
+%       \item \emph{Modern Physical Measurement}, assistant for Prof. J. Harris \when{2010}
+%       \item \emph{General Physics Laboratory}, assistant for Prof. K. Baker \when{2009}
 %     \end{itemizetight}
 %   \end{itemizetight}
 % \end{changemargin}
@@ -1331,12 +1189,6 @@
 
 %   \end{itemize}
 
-% Footer
-\medskip
-\begin{center}
-  \begin{small}
-    Last updated: \today
-  \end{small}
-\end{center}
+\cvfooter
 
 \end{document}

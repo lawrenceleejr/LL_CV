@@ -1,0 +1,107 @@
+name: Build CV
+
+# Compiles both editions of the CV on every push and pull request, and once a
+# week so the INSPIRE-HEP citation counts baked into the PDFs stay current.
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+  schedule:
+    # Mondays at 06:17 UTC.  Citation counts move slowly; weekly is plenty.
+    - cron: '17 6 * * 1'
+
+permissions:
+  contents: read
+
+# A newer push supersedes an in-flight build of the same ref.
+concurrency:
+  group: build-cv-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: pdflatex
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install TeX Live
+        run: |
+          sudo apt-get update -qq
+          # latex-extra brings sectsty/titlesec/adjustbox, fonts-extra brings
+          # Cormorant Garamond.  --no-install-recommends keeps this to ~1 GB.
+          sudo apt-get install -y -qq --no-install-recommends \
+            texlive-latex-base \
+            texlive-latex-recommended \
+            texlive-latex-extra \
+            texlive-fonts-recommended \
+            texlive-fonts-extra \
+            poppler-utils
+
+      - name: Refresh INSPIRE-HEP citation counts
+        env:
+          EVENT: ${{ github.event_name }}
+        run: |
+          # A push should not fail because inspirehep.net blinked: the build
+          # falls back to the counts committed in LL_InspireData.tex.  A
+          # scheduled run exists only to refresh them, so there a failed lookup
+          # is worth a red build.
+          if [ "$EVENT" = schedule ]; then
+            python3 tools/fetch_inspire.py --strict
+          else
+            python3 tools/fetch_inspire.py
+          fi
+
+      - name: Build both editions
+        # The fetch already happened, so don't repeat it.
+        run: ./build.sh --no-fetch --keep-aux
+
+      - name: Summarise
+        if: always()
+        run: |
+          {
+            echo '## CV build'
+            echo
+            echo '| PDF | Pages | Size |'
+            echo '| --- | ----: | ---: |'
+            for pdf in LL_CV.pdf LL_CV_internal.pdf LL_Publications.pdf; do
+              [ -f "$pdf" ] || continue
+              pages=$(pdfinfo "$pdf" | awk '/^Pages:/ { print $2 }')
+              echo "| \`$pdf\` | $pages | $(du -h "$pdf" | cut -f1) |"
+            done
+            echo
+            echo '### Live INSPIRE-HEP figures'
+            echo
+            echo '```'
+            grep -E '^\\inspireset' LL_InspireData.tex | head -3
+            echo '```'
+            boxes=$(cat build/*.pass2.log 2>/dev/null \
+                    | grep -cE '^(Overfull|Underfull)' || true)
+            echo "Overfull/underfull boxes: ${boxes:-0}"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      # Only the external edition is published as an artifact.  This repository
+      # is public, which makes workflow artifacts downloadable by anyone, and
+      # LL_CV_internal.pdf is by definition not for general circulation -- so it
+      # is built above (to catch breakage) but deliberately not uploaded.  If the
+      # repository ever becomes private, add LL_CV_internal.pdf to a separate
+      # upload step rather than to this one.
+      - name: Upload the external PDFs
+        uses: actions/upload-artifact@v4
+        with:
+          name: cv-external
+          path: |
+            LL_CV.pdf
+            LL_Publications.pdf
+          if-no-files-found: error
+          retention-days: 90
+
+      - name: Upload the pdflatex logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: latex-logs
+          path: build/*.log
+          if-no-files-found: ignore
+          retention-days: 14
