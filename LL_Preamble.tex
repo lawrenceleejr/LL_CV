@@ -331,103 +331,86 @@
 %% Live publication metrics from INSPIRE-HEP
 %% ===========================================================================
 %% Citation counts go stale the moment they are typed, so they are not written
-%% into the CV by hand.  tools/fetch_inspire.py queries the INSPIRE-HEP API and
-%% writes LL_InspireData.tex, a flat list of declarations:
+%% into the CV by hand.  The inspirehep package keeps them in a generated file
+%% of declarations,
 %%
-%%     \inspiresetcites{2690093}{3}         % citations of one paper
-%%     \inspiresetstat{citations}{207,000}  % an author-level summary figure
+%%     \inspiresetcites{2690093}{3}                        citations of a paper
+%%     \inspiresetauthorstat{1071846}{citations}{207838}    an author-level figure
 %%
 %% which the CV body reads back through \inspirepub and \inspirestat.  The
-%% values set just below are fallbacks for a build that has never run the
-%% fetcher -- an offline checkout, or Overleaf -- so the document always
-%% compiles with plausible numbers.  build.sh and CI refresh the data first.
+%% fetcher shipped with the package writes that file: it collects the records by
+%% scanning this document for \inspirepub, follows the \input files from the top
+%% level, and takes the author from the INSPIRE author link in the publications
+%% preamble.  build.sh and CI run it before the first pdflatex pass.  Nothing
+%% here touches the network, so the CV still compiles offline, and on Overleaf,
+%% from whatever LL_InspireData.tex already holds.
+%%
+%% The package lives in the inspirehep-latex submodule -- published on its own
+%% at https://github.com/lawrenceleejr/inspirehep-latex -- so a fresh clone
+%% needs "git submodule update --init" before its first build.
+%%
+%% inspirehep.sty is found through TEXINPUTS, which build.sh points at the
+%% submodule.  The bare name is deliberate: it also resolves when the file sits
+%% beside the sources, which is how Overleaf has to see it -- Overleaf's Git
+%% sync does not fetch submodules, so there the .sty is uploaded to the project
+%% root instead.  A path-qualified \usepackage would find neither.
+%%
+%% Loaded here rather than beside the packages above because it draws hyperref
+%% links, and hyperref has to come last in that list.
+\usepackage[
+  data     = LL_InspireData,   % the generated figures (.tex is added)
+  script   = inspirehep-latex/inspirehep-fetch.py,
+  mincites = 1,                % a paper below this is left unannotated
+  maxage   = 120,              % warn once the figures are a quarter old
+  fetch    = off,              % build.sh runs the fetcher; TeX never shells out
+]{inspirehep}
 
-% Declarations written by tools/fetch_inspire.py.  The keys live in \csname, so
-% the LL@ namespace prefix needs no \makeatletter here.
-\newcommand{\inspiresetcites}[2]{\expandafter\gdef\csname LL@cites@#1\endcsname{#2}}
-\newcommand{\inspiresetstat}[2]{\expandafter\gdef\csname LL@stat@#1\endcsname{#2}}
-
-% Fallbacks: the last hand-checked figures, overridden by LL_InspireData.tex.
-\inspiresetstat{papers}{1400}
-\inspiresetstat{citations}{202,000}
-\inspiresetstat{hindex}{209}
-
-% \inspirestat{<key>} -- an author-level figure: papers, citations or hindex.
-% A missing key is reported loudly rather than left silently blank.
-\newcommand{\inspirestat}[1]{%
-  \ifcsname LL@stat@#1\endcsname\csname LL@stat@#1\endcsname\else\textbf{[?~#1]}\fi
-}
-
-% \inspirecites{<record>} -- "[n citations]" for a record whose count is known.
-% Nothing is printed for an unknown count, or for one below \citesmin, so a
-% brand-new paper is left unannotated rather than advertising that nobody has
-% cited it yet.
+% The citation tag is metadata and should read a level below the title it
+% annotates: the package sets it small, and this adds the muted grey.
 %
 % The annotation costs about a dozen characters on every entry, which is enough
 % to push an entry that already filled its line onto a second one.  Raising
-% \citesmin, or shortening the label, is the dial if that happens too often.
-%
-% The tag is set small and in a muted grey: it is metadata, and should read a
-% level below the title it annotates.
+% mincites above, or shortening the label, is the dial if that happens too often.
 \definecolor{LLmuted}{gray}{0.40}
-\newcommand{\citesmin}{1}
-\newcommand{\LLprintcites}[1]{%
-  \ifnum#1<\citesmin\relax\else
-    \nobreakspace{\small\color{LLmuted}%
-      [#1\nobreakspace\ifnum#1=1\relax citation\else citations\fi]}%
-  \fi
-}
-\newcommand{\inspirecites}[1]{%
-  \ifcsname LL@cites@#1\endcsname\LLprintcites{\csname LL@cites@#1\endcsname}\fi
-}
+\renewcommand{\inspirecitesformat}[1]{\nobreakspace{\small\color{LLmuted}[#1]}}
 
 % \inspirepub{<record>}{<title>} -- a publication title in bold, linked to its
-% INSPIRE-HEP record and followed by that record's live citation count.
-\newcommand{\inspirepub}[2]{%
-  \href{https://inspirehep.net/literature/#1}{\textbf{#2}}\inspirecites{#1}%
-}
+% INSPIRE-HEP record and followed by that record's live citation count.  The CV
+% quotes each published title in its own wording, maths, and capitalisation
+% rather than taking INSPIRE's, and the package accepts that as a title=
+% option; wrapping it as a second argument keeps the call sites short.
+\providecommand{\NewCommandCopy}{\let}   % for LaTeX older than 2021-06
+\NewCommandCopy{\inspirepubfromid}{\inspirepub}
+\renewcommand{\inspirepub}[2]{\inspirepubfromid[title={#2}]{#1}}
 
 % \pub{<url>}{<title>} -- the same, for an entry with no INSPIRE-HEP record:
 % arXiv-only preprints, CDS and CERN notes, bare DOI links.
 \newcommand{\pub}[2]{\href{#1}{\textbf{#2}}}
 
-% \inspiresetfetched{<iso date>}{<day number>} -- when the figures were last
-% confirmed against INSPIRE, also written by the fetcher.  Only build.sh and CI
-% run the fetcher: compiling this file any other way -- plain pdflatex, an
-% editor's build button, Overleaf -- uses whatever LL_InspireData.tex already
-% holds and never touches the network.  That is deliberate (the CV has to
-% compile offline), but it means the figures can quietly go stale, so the age
-% is checked at \begin{document} and reported as a real LaTeX warning, which
-% editors surface, rather than buried in the log.
-\newcommand{\inspiresetfetched}[2]{\gdef\LLfetchedon{#1}\gdef\LLfetchedday{#2}}
-\inspiresetfetched{an unknown date}{0}
-
-% Days after which the figures are called stale.  The day numbers are TeX's own
-% 365*year + 31*month + day on both sides (see tools/fetch_inspire.py), so the
-% difference is approximate -- good enough to notice a quarter going by.
-\newcommand{\citesmaxage}{120}
-\newcount\LLdataage
-
-% The generated data, if it has been fetched.  \IfFileExists keeps a fresh
-% checkout compiling on the fallbacks above.
-\IfFileExists{LL_InspireData.tex}{\input{LL_InspireData.tex}}{%
-  \typeout{^^JLL_CV: LL_InspireData.tex not found; using fallback INSPIRE
-figures. Run tools/fetch_inspire.py to refresh them.^^J}%
+% \inspirestat{<key>} -- an author-level figure: papers, citations or hindex.
+% A missing key is reported loudly rather than left silently blank.
+%
+% The exact counts move daily and the sentence quoting them says "over", so the
+% two large figures are rounded down.  The paper count keeps its digits
+% unseparated, as it has read until now; drop its sep=none to give it the
+% thousands comma the citation count already has.
+\makeatletter
+\newcommand{\LL@stat@papers}   {\inspirepapers   [round=100, sep=none]{1071846}}
+\newcommand{\LL@stat@citations}{\inspirecitations[round=1000]{1071846}}
+\newcommand{\LL@stat@hindex}   {\inspirehindex{1071846}}
+\newcommand{\inspirestat}[1]{%
+  \ifcsname LL@stat@#1\endcsname\csname LL@stat@#1\endcsname\else\textbf{[?~#1]}\fi
 }
+\makeatother
 
-\AtBeginDocument{%
-  \ifnum\LLfetchedday>0
-    \LLdataage=\numexpr 365*\year + 31*\month + \day - \LLfetchedday\relax
-    \typeout{LL_CV: INSPIRE figures fetched \LLfetchedon.}%
-    \ifnum\LLdataage>\citesmaxage\relax
-      \PackageWarningNoLine{LL_CV}{%
-        The INSPIRE figures date from \LLfetchedon\space (roughly
-        \the\LLdataage\space days ago).^^JRun ./build.sh to refresh them --
-        a plain pdflatex does not}%
-    \fi
-  \fi
-}
-
+% Fallbacks: the last hand-checked figures, for a build that has never run the
+% fetcher -- an offline checkout, or a fresh Overleaf project -- so the document
+% always compiles with plausible numbers.  These are raw counts; the rounding
+% and the thousands separator are applied above.  LL_InspireData.tex is read at
+% \begin{document} and overrides every one of them.
+\inspiredefaultauthorstat{1071846}{papers}{1467}
+\inspiredefaultauthorstat{1071846}{citations}{207838}
+\inspiredefaultauthorstat{1071846}{hindex}{211}
 
 %% ===========================================================================
 %% Title block

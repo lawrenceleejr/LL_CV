@@ -6,9 +6,10 @@
 #   LL_CV_internal.pdf   the internal CV, with the material \internalonly hides
 #   LL_Publications.pdf  the publication list on its own
 #
-# Citation counts are refreshed from INSPIRE-HEP before the first build; the
-# fetcher leaves the existing numbers alone if the API cannot be reached, so
-# this works offline too.
+# Citation counts are refreshed from INSPIRE-HEP before the first build by the
+# fetcher in the inspirehep-latex submodule, which reads the records straight
+# out of LL_CV.tex and the files it inputs.  It leaves the existing numbers
+# alone if the API cannot be reached, so this works offline too.
 #
 # Usage: ./build.sh [--no-fetch] [--keep-aux]
 #
@@ -37,11 +38,23 @@ command -v pdflatex >/dev/null || {
   exit 1
 }
 
+# The INSPIRE macros and their fetcher come from the inspirehep-latex submodule,
+# which a plain `git clone` leaves empty.
+[[ -f inspirehep-latex/inspirehep.sty ]] || {
+  echo "$0: the inspirehep-latex submodule is empty. Run:" >&2
+  echo "    git submodule update --init" >&2
+  exit 1
+}
+
+# Where pdflatex looks for inspirehep.sty.  The trailing empty entry keeps the
+# rest of the search path; without it TeX would look nowhere else.
+export TEXINPUTS=".:inspirehep-latex:${TEXINPUTS:-}"
+
 # --------------------------------------------------------------------------
 # Live citation counts
 # --------------------------------------------------------------------------
 if [[ $FETCH -eq 1 ]]; then
-  python3 tools/fetch_inspire.py
+  python3 inspirehep-latex/inspirehep-fetch.py LL_CV.tex --output LL_InspireData.tex
 else
   echo "Skipping the INSPIRE-HEP refresh (--no-fetch)."
 fi

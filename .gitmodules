@@ -1,0 +1,3 @@
+[submodule "inspirehep-latex"]
+	path = inspirehep-latex
+	url = https://github.com/lawrenceleejr/inspirehep-latex

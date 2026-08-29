@@ -25,6 +25,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          # inspirehep.sty and its fetcher live in the inspirehep-latex
+          # submodule; without this the checkout leaves that directory empty.
+          submodules: true
 
       - name: Install TeX Live
         run: |
@@ -47,10 +51,12 @@ jobs:
           # falls back to the counts committed in LL_InspireData.tex.  A
           # scheduled run exists only to refresh them, so there a failed lookup
           # is worth a red build.
+          FETCH="python3 inspirehep-latex/inspirehep-fetch.py LL_CV.tex
+                 --output LL_InspireData.tex"
           if [ "$EVENT" = schedule ]; then
-            python3 tools/fetch_inspire.py --strict
+            $FETCH --strict
           else
-            python3 tools/fetch_inspire.py
+            $FETCH
           fi
 
       - name: Build both editions

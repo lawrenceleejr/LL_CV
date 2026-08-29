@@ -4,6 +4,16 @@ The LaTeX source for Lawrence Lee's CV. One source tree produces three PDFs,
 and the citation counts in them are read from
 [INSPIRE-HEP](https://inspirehep.net/authors/1071846) rather than typed by hand.
 
+The INSPIRE machinery is a package of its own,
+[inspirehep-latex](https://github.com/lawrenceleejr/inspirehep-latex), carried
+here as a submodule, so clone with it:
+
+```sh
+git clone --recurse-submodules https://github.com/lawrenceleejr/LL_CV
+# already cloned without it:
+git submodule update --init
+```
+
 | PDF | Contents |
 | --- | --- |
 | `LL_CV.pdf` | the external CV, for general circulation |
@@ -15,6 +25,15 @@ and the citation counts in them are read from
 **To edit and preview:** compile `LL_CV.tex` however you normally do — `pdflatex`,
 `latexmk`, your editor's build button, Overleaf. That gives you the external CV,
 and the citation figures come from `LL_InspireData.tex` as committed.
+
+`pdflatex` has to be able to find `inspirehep.sty`, which lives in the
+submodule. `./build.sh` arranges that itself; for a bare compile, either point
+`TEXINPUTS` at the submodule or copy the file next to the sources:
+
+```sh
+TEXINPUTS=.:inspirehep-latex: pdflatex LL_CV.tex   # or
+cp inspirehep-latex/inspirehep.sty .               # what Overleaf needs
+```
 
 **To build everything, with fresh figures:**
 
@@ -40,16 +59,16 @@ That is deliberate: the CV has to compile on a machine with no network, and on
 Overleaf, where running a Python script isn't an option. The cost is that the
 figures can go quietly stale, so the fetcher records the date it last confirmed
 them and the preamble turns that into an ordinary LaTeX warning once it is more
-than `\citesmaxage` (120) days old:
+than the package's `maxage` (120) days old:
 
 ```
-Package LL_CV Warning: The INSPIRE figures date from 2026-02-10 (roughly 205 days ago).
-Run ./build.sh to refresh them -- a plain pdflatex does not.
+Package inspirehep Warning: The data dates from 2026-02-10 (about 205 days ago).
+Refresh with -shell-escape or inspirehep-fetch.py.
 ```
 
 The build still succeeds; it just tells you. Run `./build.sh` — or
-`python3 tools/fetch_inspire.py` on its own — and commit the regenerated
-`LL_InspireData.tex`.
+`python3 inspirehep-latex/inspirehep-fetch.py LL_CV.tex --output LL_InspireData.tex`
+on its own — and commit the regenerated `LL_InspireData.tex`.
 
 ## Adding an entry
 
@@ -100,27 +119,34 @@ files stay distinguishable once detached from their filenames.
 
 ## Live figures from INSPIRE-HEP
 
-`tools/fetch_inspire.py` queries the INSPIRE-HEP API and writes
+The fetcher in the submodule queries the INSPIRE-HEP API and writes
 `LL_InspireData.tex`, a generated file holding nothing but declarations:
 
 ```latex
-\inspiresetstat{citations}{207,000}
+\inspiresetauthorstat{1071846}{citations}{207838}
 \inspiresetcites{2642414}{406}
 \inspiresetfetched{2026-08-29}{739767}
 ```
 
 `\inspirepub` and `\inspirestat` read them back. Which records to look up is
-discovered by scanning the sources for `\inspirepub{…}`, so adding a publication
-is enough to start tracking its citations — there is no second list to keep in
-step. A count of zero prints nothing, so a brand-new paper is left unannotated;
-`\citesmin` in the preamble raises that threshold.
+discovered by scanning the sources for `\inspirepub{…}` — following the `\input`
+files from `LL_CV.tex` — so adding a publication is enough to start tracking its
+citations, and there is no second list to keep in step. The author is found the
+same way, from the INSPIRE author link in the publications preamble. A count of
+zero prints nothing, so a brand-new paper is left unannotated; the `mincites`
+option in `LL_Preamble.tex` raises that threshold.
+
+Figures arrive as raw counts and are rounded and separated at the point of use,
+which is why the preamble asks for `round=100` on the paper count and
+`round=1000` on the citations: the sentence quoting them says "over".
 
 The script uses only the Python standard library, so nothing needs installing.
 
 ```sh
-python3 tools/fetch_inspire.py            # refresh LL_InspireData.tex
-python3 tools/fetch_inspire.py --print    # dump to stdout, write nothing
-python3 tools/fetch_inspire.py --strict   # fail loudly if the API is unreachable
+F="inspirehep-latex/inspirehep-fetch.py LL_CV.tex --output LL_InspireData.tex"
+python3 $F            # refresh LL_InspireData.tex
+python3 $F --print    # dump to stdout, write nothing
+python3 $F --strict   # fail loudly if the API is unreachable
 ```
 
 Without `--strict` a failed lookup leaves the existing file alone and exits 0,
@@ -231,7 +257,7 @@ LL_PubInclude.tex       the publication entries, shared by both of the above
 LL_Preamble.tex         everything shared: packages, page layout, list styles,
                         the edition switches, the INSPIRE-HEP commands
 LL_InspireData.tex      generated -- citation counts, written by the fetcher
-tools/fetch_inspire.py  reads INSPIRE-HEP, writes LL_InspireData.tex
+inspirehep-latex/       submodule: the inspirehep package and its fetcher
 tools/check_alignment.py  checks the date column in the built PDFs
 build.sh                fetch, build all three PDFs, check
 ```
@@ -240,3 +266,16 @@ build.sh                fetch, build all three PDFs, check
 builds with real figures. Its fetch date changes whenever the fetcher runs, so
 expect that one line to show up in `git status` after a `./build.sh`; commit it
 or discard it, either is fine.
+
+## Overleaf
+
+Overleaf's Git sync does not fetch submodules, so `inspirehep-latex/` arrives
+empty and `\usepackage{inspirehep}` finds nothing. Upload
+`inspirehep-latex/inspirehep.sty` to the project root once and the bare
+`\usepackage` resolves it there instead; it only needs replacing when the
+package itself changes.
+
+Overleaf cannot run the fetcher either — no shell escape, no network — so it
+typesets the figures committed in `LL_InspireData.tex`. To refresh them without
+leaving Overleaf, add that file through **Add file → From external URL**,
+pointed at its raw URL on GitHub, and use the Refresh button.
