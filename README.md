@@ -132,9 +132,11 @@ The fetcher in the submodule queries the INSPIRE-HEP API and writes
 discovered by scanning the sources for `\inspirepub{…}` — following the `\input`
 files from `LL_CV.tex` — so adding a publication is enough to start tracking its
 citations, and there is no second list to keep in step. The author is found the
-same way, from the INSPIRE author link in the publications preamble. A count of
-zero prints nothing, so a brand-new paper is left unannotated; the `mincites`
-option in `LL_Preamble.tex` raises that threshold.
+same way, from the `\inspirepapers{1071846}` and its siblings that
+`LL_Preamble.tex` puts behind `\inspirestat`; nothing is inferred from the
+INSPIRE author link in the prose, since a document may discuss several people.
+A count of zero prints nothing, so a brand-new paper is left unannotated; the
+`mincites` option in `LL_Preamble.tex` raises that threshold.
 
 Figures arrive as raw counts and are rounded and separated at the point of use,
 which is why the preamble asks for `round=100` on the paper count and

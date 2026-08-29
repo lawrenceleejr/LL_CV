@@ -340,8 +340,9 @@
 %% which the CV body reads back through \inspirepub and \inspirestat.  The
 %% fetcher shipped with the package writes that file: it collects the records by
 %% scanning this document for \inspirepub, follows the \input files from the top
-%% level, and takes the author from the INSPIRE author link in the publications
-%% preamble.  build.sh and CI run it before the first pdflatex pass.  Nothing
+%% level, and takes the author from the commands that name one -- the
+%% \inspirepapers and siblings just below.  build.sh and CI run it before the
+%% first pdflatex pass.  Nothing
 %% here touches the network, so the CV still compiles offline, and on Overleaf,
 %% from whatever LL_InspireData.tex already holds.
 %%
