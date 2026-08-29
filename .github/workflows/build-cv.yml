@@ -51,12 +51,14 @@ jobs:
           # falls back to the counts committed in LL_InspireData.tex.  A
           # scheduled run exists only to refresh them, so there a failed lookup
           # is worth a red build.
-          FETCH="python3 inspirehep-latex/inspirehep-fetch.py LL_CV.tex
-                 --output LL_InspireData.tex"
+          fetch() {
+            python3 inspirehep-latex/inspirehep-fetch.py LL_CV.tex \
+                    --output LL_InspireData.tex "$@"
+          }
           if [ "$EVENT" = schedule ]; then
-            $FETCH --strict
+            fetch --strict
           else
-            $FETCH
+            fetch
           fi
 
       - name: Build both editions
