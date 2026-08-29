@@ -35,6 +35,7 @@ Only the Python standard library is used, so CI needs no pip install.
 from __future__ import annotations
 
 import argparse
+import datetime
 import json
 import os
 import re
@@ -147,8 +148,20 @@ def floor_to(value: int, step: int) -> int:
     return (value // step) * step
 
 
+def day_number(d: "datetime.date") -> int:
+    """A rough day count on a scale TeX can also compute for "today".
+
+    TeX offers \\year, \\month and \\day, so both sides use 365*y + 31*m + d.
+    Uneven month lengths make this drift by a few units over a quarter, which
+    is precise enough for the preamble's soft "these figures are getting old"
+    check and needs no date library on the TeX side.
+    """
+    return 365 * d.year + 31 * d.month + d.day
+
+
 def render(counts: dict[str, int], summary: dict[str, int]) -> str:
     """Render the fetched numbers as the body of LL_InspireData.tex."""
+    today = datetime.date.today()
     lines = [
         "%% Publication metrics fetched from the INSPIRE-HEP API.",
         "%% GENERATED FILE -- do not edit; run tools/fetch_inspire.py instead.",
@@ -164,6 +177,11 @@ def render(counts: dict[str, int], summary: dict[str, int]) -> str:
         f"\\inspiresetstat{{citations}}{{{floor_to(summary['citations'], CITATION_ROUNDING):,}}}"
         f"  % exact: {summary['citations']:,}",
         f"\\inspiresetstat{{hindex}}{{{summary['hindex']}}}",
+        "",
+        "%% When these were last confirmed against INSPIRE.  A build that does not",
+        "%% run the fetcher -- a plain pdflatex, an editor, Overleaf -- uses whatever",
+        "%% this file holds, so the preamble warns once the date gets old.",
+        f"\\inspiresetfetched{{{today.isoformat()}}}{{{day_number(today)}}}",
         "",
         "%% Per-paper citation counts, keyed by INSPIRE record id.",
     ]

@@ -391,11 +391,41 @@
 % arXiv-only preprints, CDS and CERN notes, bare DOI links.
 \newcommand{\pub}[2]{\href{#1}{\textbf{#2}}}
 
+% \inspiresetfetched{<iso date>}{<day number>} -- when the figures were last
+% confirmed against INSPIRE, also written by the fetcher.  Only build.sh and CI
+% run the fetcher: compiling this file any other way -- plain pdflatex, an
+% editor's build button, Overleaf -- uses whatever LL_InspireData.tex already
+% holds and never touches the network.  That is deliberate (the CV has to
+% compile offline), but it means the figures can quietly go stale, so the age
+% is checked at \begin{document} and reported as a real LaTeX warning, which
+% editors surface, rather than buried in the log.
+\newcommand{\inspiresetfetched}[2]{\gdef\LLfetchedon{#1}\gdef\LLfetchedday{#2}}
+\inspiresetfetched{an unknown date}{0}
+
+% Days after which the figures are called stale.  The day numbers are TeX's own
+% 365*year + 31*month + day on both sides (see tools/fetch_inspire.py), so the
+% difference is approximate -- good enough to notice a quarter going by.
+\newcommand{\citesmaxage}{120}
+\newcount\LLdataage
+
 % The generated data, if it has been fetched.  \IfFileExists keeps a fresh
 % checkout compiling on the fallbacks above.
 \IfFileExists{LL_InspireData.tex}{\input{LL_InspireData.tex}}{%
   \typeout{^^JLL_CV: LL_InspireData.tex not found; using fallback INSPIRE
 figures. Run tools/fetch_inspire.py to refresh them.^^J}%
+}
+
+\AtBeginDocument{%
+  \ifnum\LLfetchedday>0
+    \LLdataage=\numexpr 365*\year + 31*\month + \day - \LLfetchedday\relax
+    \typeout{LL_CV: INSPIRE figures fetched \LLfetchedon.}%
+    \ifnum\LLdataage>\citesmaxage\relax
+      \PackageWarningNoLine{LL_CV}{%
+        The INSPIRE figures date from \LLfetchedon\space (roughly
+        \the\LLdataage\space days ago).^^JRun ./build.sh to refresh them --
+        a plain pdflatex does not}%
+    \fi
+  \fi
 }
 
 
