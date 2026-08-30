@@ -29,8 +29,8 @@ import re
 import subprocess
 import sys
 
-WORD = re.compile(r'<word xMin="([\d.]+)" yMin="([\d.]+)" '
-                  r'xMax="([\d.]+)" yMax="[\d.]+">([^<]*)</word>')
+WORD = re.compile(r'<word xMin="([\d.]+)" yMin="[\d.]+" '
+                  r'xMax="([\d.]+)" yMax="([\d.]+)">([^<]*)</word>')
 DATE = re.compile(r"^(19|20)\d{2}([-–—]+\d{0,4})?$")
 
 # A date this far off its reference is a real misalignment.  One word space at
@@ -39,25 +39,40 @@ TOLERANCE = 0.6
 
 
 def lines_of(pdf: str):
-    """Yield (page number, [(x0, x1, word), ...]) for each visual line."""
+    """Yield (page number, [(x0, x1, word), ...]) for each visual line.
+
+    Lines are grouped on each word's yMax and then sorted left to right.  Both
+    details matter, and both were learned the hard way.
+
+    pdftotext derives a word's box from its font's bounding box, so the box
+    moves whenever that font's subset changes.  Adding a single \\textmu to this
+    CV grew the roman subset and pushed every roman word's yMin up by 2.7pt
+    while the italic stayed put -- enough to break a 3pt window on yMin, which
+    is what this used to group on.  yMax barely moved (0.7pt), because it sits
+    near the baseline, and the CV's 13.5pt leading leaves it room to spare.
+
+    Sorting each line matters because the words arrive in yMax order, so a line
+    mixing two fonts arrives grouped by font rather than by position.  Without
+    the sort, dated_lines() below looks for a date at the end of the line and
+    finds an italic word instead.  That failure is silent: the line is simply
+    not counted, and the check passes over a smaller and smaller document.
+    """
     xml = subprocess.run(["pdftotext", "-bbox", pdf, "-"],
                          capture_output=True, text=True, check=True).stdout
     for pageno, page in enumerate(xml.split("<page")[1:], 1):
-        words = sorted((float(m.group(2)), float(m.group(1)),
-                        float(m.group(3)), html.unescape(m.group(4)))
+        words = sorted((float(m.group(3)), float(m.group(1)),
+                        float(m.group(2)), html.unescape(m.group(4)))
                        for m in WORD.finditer(page))
-        line, top = [], None
+        line, baseline = [], None
         for y, x0, x1, text in words:
-            # pdftotext reports each word's own yMin, and a line's words differ
-            # slightly; group anything within 3pt of the line's first word.
-            if top is not None and y - top > 3.0:
-                yield pageno, line
-                line, top = [], None
-            if top is None:
-                top = y
+            if baseline is not None and y - baseline > 3.0:
+                yield pageno, sorted(line)
+                line, baseline = [], None
+            if baseline is None:
+                baseline = y
             line.append((x0, x1, text))
         if line:
-            yield pageno, line
+            yield pageno, sorted(line)
 
 
 def dated_lines(pdf: str):
