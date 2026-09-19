@@ -380,7 +380,9 @@
 \pgfplotsset{
   cumulative/.style={
     execute at begin plot={\gdef\LLcumsum{0}},
-    y filter/.code={\pgfmathparse{\LLcumsum+#1}\global\let\LLcumsum\pgfmathresult},
+    % ##1 -- the y value: a .code nested inside a .style needs its argument
+    % doubled, or the style expansion eats it and the filter sees nothing.
+    y filter/.code={\pgfmathparse{\LLcumsum+##1}\global\let\LLcumsum\pgfmathresult},
   },
 }
 
