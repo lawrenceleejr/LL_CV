@@ -367,6 +367,23 @@
   plots    = true,             % pgfplots, for the collection's citation plot
 ]{inspirehep}
 
+% The collection's citation plot is drawn as a running total.  Drawn per year,
+% a line invites the eye to read the yearly ups and downs as a trend, which is
+% not what a citation series supports; the cumulative curve says the one thing
+% the plot is there to say.  pgfplots has no cumulative-sum key, so the total is
+% accumulated as the coordinates are read: the filter runs once per point, in
+% order, and returns the running sum in place of the year's own count.
+%
+% Applied through \inspireplotstyle at the plot itself (see LL_PubInclude.tex).
+% Without `cumulative' the series is per year again, and the label there should
+% say citations/yr rather than cumulative citations.
+\pgfplotsset{
+  cumulative/.style={
+    execute at begin plot={\gdef\LLcumsum{0}},
+    y filter/.code={\pgfmathparse{\LLcumsum+#1}\global\let\LLcumsum\pgfmathresult},
+  },
+}
+
 % The citation tag is metadata and should read a level below the title it
 % annotates: the package sets it small, and this adds the muted grey.
 %

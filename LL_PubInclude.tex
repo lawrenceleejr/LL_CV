@@ -21,6 +21,9 @@
   \begingroup
     \renewcommand{\inspireplotwidth}{0.64\linewidth}%
     \renewcommand{\inspireplotheight}{3.12cm}%
+    % A running total rather than the per-year series; see LL_Preamble.tex.
+    % Per year, this label should read citations/yr instead.
+    \renewcommand{\inspireplotstyle}{cumulative, ylabel={cumulative citations}}%
     \centering\inspirecollectionplot\par
   \endgroup
 
