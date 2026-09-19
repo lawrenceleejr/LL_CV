@@ -23,12 +23,12 @@
     \renewcommand{\inspireplotheight}{3.12cm}%
     % A running total rather than the per-year series; see LL_Preamble.tex.
     % Per year, this label should read citations/yr instead.
-    % The braces around the thousands comma keep it an ordinary symbol: tick
+    % \mathord keeps the thousands comma an ordinary symbol: tick
     % labels are set in math mode, where a bare comma is punctuation and picks
     % up a thin space after it -- "1, 000".  Only cumulative values reach four
     % digits, so the per-year series never showed this.
     \renewcommand{\inspireplotstyle}{cumulative, ylabel={cumulative citations},
-      y tick label style={/pgf/number format/1000 sep={{,}}}}%
+      y tick label style={/pgf/number format/1000 sep={\mathord{,}}}}%
     \centering\inspirecollectionplot\par
   \endgroup
 
