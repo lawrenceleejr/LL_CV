@@ -23,7 +23,13 @@
     \renewcommand{\inspireplotheight}{3.12cm}%
     % A running total rather than the per-year series; see LL_Preamble.tex.
     % Per year, this label should read citations/yr instead.
-    \renewcommand{\inspireplotstyle}{cumulative, ylabel={cumulative citations}}%
+    %
+    % Tick labels are set in math mode, where a comma is punctuation and takes a
+    % thin space after it -- the first four-digit tick read "1, 000".  \! cancels
+    % exactly that space.  Bracing the comma does not work: pgf strips the braces
+    % when it stores the key.
+    \renewcommand{\inspireplotstyle}{cumulative, ylabel={cumul. citations},
+      y tick label style={/pgf/number format/1000 sep={,\!}}}%
     \centering\inspirecollectionplot\par
   \endgroup
 
@@ -43,7 +49,7 @@
       \item \emph{Responsible for original idea to instrument service shafts above the ATLAS Experiment for a dedicated long-lived particle experiment. Helped shape technical proposal outlined in paper.}
     \end{itemizetightrightpad}
 
-    \item C.~Riggall, R.~Ganesan, L.~Lee, T.~Holmes, K.~Yonehara, D.~Stratakis, D.~Neuffer, M.~Palmer, \inspirepub{3159704}{A Charge-Agnostic Design For 6D Muon Ionization Cooling}, \emph{JACoW COOL2025} \newline \emph{(Proceedings, norm for publication in Accelerator Physics)} \whenflush{2025}
+    \item C.~Riggall, R.~Ganesan, L.~Lee, T.~Holmes, K.~Yonehara, D.~Stratakis, D.~Neuffer, M.~Palmer, \inspirepub{3159704}{A Charge-Agnostic Design For 6D Muon Ionization Cooling}, \emph{JACoW COOL2025} \newline \emph{(Proceedings, norm for publication in Accelerator Physics)} \whenflush{2026} % COOL2025 proceedings, published 2026
 
     \item S. Kakkar, V. Morozov, L. Lee, N. Evans, A. Zhukov, A. Hoover, \inspirepub{3119390}{Beam Loss Modeling And Mitigation Due To
 Intra-Beam Stripping}, \emph{JACoW NAPAC2025} THP014 \newline \emph{(Proceedings, norm for publication in Accelerator Physics)} \whenflush{2025}
@@ -61,7 +67,7 @@ Intra-Beam Stripping}, \emph{JACoW NAPAC2025} THP014 \newline \emph{(Proceedings
     \end{itemizetightrightpad}
 
   \item  C.~Bell, et al (\emph{21 others}) \inspirepub{2874678}{MAIA: A new detector concept for a 10 TeV muon collider},
-  \\ \emph{arXiv}, 2502.00181  \whenflush{2025}
+  \\ \emph{arXiv}, 2502.00181, \emph{Submitted to PRD}  \whenflush{2025}
 
   \begin{itemizetightrightpad}
     \item \emph{Main editor of Section VI. Responsible for all 3D renderings of the detector concept. General input on the overall physics output.}
