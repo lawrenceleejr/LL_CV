@@ -18,19 +18,39 @@
   \item  \href{https://inspirehep.net/authors/1071846}{Over \inspirestat{papers} published papers, mostly as part of the ATLAS and CMS Collaborations, with over \inspirestat{citations} citations, and an $h$-index of \inspirestat{hindex} [\textit{INSPIRE}].} Valid authorship in the ATLAS and CMS Collaborations requires a record of and continued contributions to the operation, maintenance, and improvements of the experiments in service of all of the collaboration's activities. Selected publications with significant direct contributions are listed below, with \inspirecollectioncitations{} citations, an $h$-index of \inspirecollectionhindex{}, and a $g$-index of \inspirecollectiongindex{} [\inspirecollectionlink{\textit{INSPIRE}}]. \textit{{$\RHD$} indicates a primary editor, primary analyzer, or intellectual lead role.}
 
   \par\smallskip
+  % Cumulative citations, all papers against the papers listed below, on a log
+  % axis so the two can share it: the selected papers are about a percent of
+  % the total.  Each curve is labelled at its end rather than in a legend.  The
+  % data come from tools/fetch_citation_history.py, which build.sh and CI run
+  % after the INSPIRE fetch; they are citations, matching the totals quoted
+  % above, not the citing-paper counts the inspirehep-latex plots use.
+  %
+  % Tick labels are not set in math mode (assume math mode), so the thousands
+  % comma is a text comma: in math mode it is punctuation and takes a thin space
+  % after it.  Per year rather than cumulative, the label should read
+  % citations/yr.
   \begingroup
-    \renewcommand{\inspireplotwidth}{0.64\linewidth}%
-    \renewcommand{\inspireplotheight}{3.12cm}%
-    % A running total rather than the per-year series; see LL_Preamble.tex.
-    % Per year, this label should read citations/yr instead.
-    %
-    % Tick labels are set in math mode, where a comma is punctuation and takes a
-    % thin space after it -- the first four-digit tick read "1, 000".  \! cancels
-    % exactly that space.  Bracing the comma does not work: pgf strips the braces
-    % when it stores the key.
-    \renewcommand{\inspireplotstyle}{cumulative, ylabel={cumul. citations},
-      y tick label style={/pgf/number format/assume math mode}}%
-    \centering\inspirecollectionplot\par
+    \InputIfFileExists{LL_CitationHistory}{}{}%
+    \centering
+    \begin{tikzpicture}
+      \begin{axis}[
+          width=0.64\linewidth, height=3.6cm,
+          ymode=log, yminorticks=false, log ticks with fixed point,
+          axis lines=left, axis line style={-,gray!60},
+          tick style={gray!60}, tick align=outside,
+          xtick distance=5,
+          tick label style={font=\small, /pgf/number format/assume math mode},
+          x tick label style={/pgf/number format/1000 sep={}},
+          y tick label style={/pgf/number format/1000 sep={,}},
+          ylabel={cumul. citations}, ylabel style={font=\small},
+          enlarge x limits=0.03, clip=false,
+        ]
+        \LLaddcitesall{thick, black}
+          node[pos=1, anchor=west, font=\small] {all papers};
+        \LLaddcitesselected{thick, black, dashed}
+          node[pos=1, anchor=west, font=\small] {selected papers};
+      \end{axis}
+    \end{tikzpicture}\par
   \endgroup
 
 

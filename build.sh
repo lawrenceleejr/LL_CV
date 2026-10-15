@@ -8,8 +8,9 @@
 #
 # Citation counts are refreshed from INSPIRE-HEP before the first build by the
 # fetcher in the inspirehep-latex submodule, which reads the records straight
-# out of LL_CV.tex and the files it inputs.  It leaves the existing numbers
-# alone if the API cannot be reached, so this works offline too.
+# out of LL_CV.tex and the files it inputs, and the citation plot's history by
+# tools/fetch_citation_history.py.  Both leave the existing numbers alone if
+# the API cannot be reached, so this works offline too.
 #
 # Usage: ./build.sh [--no-fetch] [--keep-aux]
 #
@@ -55,6 +56,9 @@ export TEXINPUTS=".:inspirehep-latex:${TEXINPUTS:-}"
 # --------------------------------------------------------------------------
 if [[ $FETCH -eq 1 ]]; then
   python3 inspirehep-latex/inspirehep-fetch.py LL_CV.tex --output LL_InspireData.tex
+  # The citation plot's two curves.  It reads the author and the list of
+  # selected papers from the file just written, so it runs second.
+  python3 tools/fetch_citation_history.py
 else
   echo "Skipping the INSPIRE-HEP refresh (--no-fetch)."
 fi

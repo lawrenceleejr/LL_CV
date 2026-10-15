@@ -57,8 +57,10 @@ jobs:
           }
           if [ "$EVENT" = schedule ]; then
             fetch --strict
+            python3 tools/fetch_citation_history.py --strict
           else
             fetch
+            python3 tools/fetch_citation_history.py
           fi
 
       - name: Build both editions
