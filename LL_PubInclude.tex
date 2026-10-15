@@ -34,8 +34,11 @@
     \centering
     \begin{tikzpicture}
       \begin{axis}[
-          width=0.64\linewidth, height=3.6cm,
-          ymode=log, yminorticks=false, log ticks with fixed point,
+          width=0.64\linewidth, height=4.2cm,
+          % The floor sits below the first point on either curve (7 citations,
+          % in 2012), and every decade gets a label.
+          ymode=log, ymin=5, ytick={10,100,1000,10000,100000,1000000},
+          yminorticks=false, log ticks with fixed point,
           axis lines=left, axis line style={-,gray!60},
           tick style={gray!60}, tick align=outside,
           xtick distance=5,
